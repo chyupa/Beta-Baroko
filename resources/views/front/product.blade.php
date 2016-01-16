@@ -26,7 +26,7 @@
             <button type="button" class="btn btn-default" ng-click="productCtrl.addQuantity()">+1</button>
             <button type="button" class="btn btn-warning" ng-click="productCtrl.removeQuantity()" ng-disabled="productCtrl.quantity == 0">-1</button>
             <p>
-                New Quantity: <span ng-bind="productCtrl.product.info.extension | extension:productCtrl.quantity"></span>
+                Quantity: <span ng-bind="productCtrl.product.info.extension | extension:productCtrl.quantity"></span>
             </p>
             <button type="submit" class="btn btn-primary" ng-disabled="productCtrl.quantity == 0">Add to Cart</button>
         </form>

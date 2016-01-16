@@ -246,16 +246,14 @@
         .module('baroko.front')
         .controller('ProductController', ProductController);
 
-    ProductController.$inject = ['toastr', 'ProductFactory', 'CartFactory', '$location', 'extensions'];
+    ProductController.$inject = ['toastr', 'ProductFactory', 'CartFactory', '$location'];
 
-    function ProductController(toastr, ProductFactory, CartFactory, $location, extensions) {
+    function ProductController(toastr, ProductFactory, CartFactory, $location) {
         var vm = this;
         vm.submitForm = submitForm;
         vm.addQuantity = addQuantity;
         vm.removeQuantity = removeQuantity;
         vm.quantity = 0;
-        vm.singleExtension = '';
-        vm.pluralExtension = '';
 
         activate();
 
@@ -291,12 +289,21 @@
 
         function submitForm() {
 
+            /**
+             * send this object to backend in order to save in DB
+             * we also send the price since the price might change and it is best to save this value for the order
+             *
+             * @type {{url: string, quantity: number, price: number}}
+             */
             var data = {
                 url: getSlugFromUrl(),
                 quantity: vm.quantity,
                 price: vm.product.prices.price
             };
 
+            /**
+             * call backend to add to cart
+             */
             return CartFactory.addToCart(data)
                 .then(function (response) {
                     toastr.success(response.success);
