@@ -30,6 +30,8 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/', ['uses' => 'HomeController@getHome', 'as' => 'front.get.home']);
 
         Route::get('/{url}', ['uses' => 'ProductController@getSingleProduct', 'as' => 'front.get.singleProduct']);
+
+        Route::get('/categories', ['uses' => 'CategoryController@getCategories', 'as' => 'front.get.categories']);
     });
 });
 

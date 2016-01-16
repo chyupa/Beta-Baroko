@@ -41,6 +41,7 @@ class ProductRepository
         return $this->model
           ->with('info')
           ->with('prices')
+          ->with('settings')
           ->where('url', $url)
           ->firstOrFail();
     }
