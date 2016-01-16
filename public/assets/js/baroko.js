@@ -152,8 +152,31 @@
 
     function ProductController(toastr, ProductFactory, $location) {
         var vm = this;
+        vm.addQuantity = addQuantity;
+        vm.removeQuantity = removeQuantity;
+        vm.quantity = 0;
+        vm.singleExtension = '';
+        vm.pluralExtension = '';
 
         activate();
+
+        /**
+         * Add one unit
+         *
+         * @returns {number}
+         */
+        function addQuantity() {
+            return ++vm.quantity;
+        }
+
+        /**
+         * Remove one unit
+         *
+         * @returns {number}
+         */
+        function removeQuantity() {
+            return --vm.quantity;
+        }
 
         /**
          * Get product info
@@ -164,6 +187,13 @@
             return ProductFactory.getProduct(getSlugFromUrl())
                 .then(function(response) {
                     vm.product = response.product;
+                    if (vm.product.info.extension == 'bucata') {
+                        vm.singleExtension = 'bucata';
+                        vm.pluralExtension = 'bucati';
+                    } else {
+                        vm.singleExtension = 'metru';
+                        vm.pluralExtension = 'metrii';
+                    }
                 });
         }
 
