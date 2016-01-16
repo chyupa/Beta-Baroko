@@ -9,10 +9,108 @@
         .constant('endpoints', {
             BACK: {
                 GET_PRODUCTS: 'api/getPublicProducts',
-                GET_PRODUCT: 'api/getProduct/'
+                GET_PRODUCT: 'api/getProduct/',
+
+                ADD_TO_CART: 'api/addToCart'
+            }
+        })
+        .constant('extensions', {
+            SINGLE: {
+                METRU: 'metru',
+                BUCATA: 'bucata'
+            },
+            PLURAL: {
+                METRU: 'metrii',
+                BUCATA: 'bucati'
             }
         });
 
+})();
+(function () {
+    'use strict';
+
+    angular
+        .module('baroko.front')
+        .filter('extension', extension);
+
+    extension.$inject = ['extensions'];
+
+    /**
+     * Filter for using the right singular/plural product extension
+     *
+     * @param extensions
+     * @returns {Function}
+     */
+    function extension(extensions) {
+
+       return function(extension, quantity) {
+           if (extension === extensions.SINGLE.BUCATA) {
+               switch (quantity) {
+                   case 0:
+                       return quantity + ' ' + extensions.PLURAL.BUCATA;
+                   case 1:
+                       return quantity + ' ' + extensions.SINGLE.BUCATA;
+                   default:
+                       return quantity + ' ' + extensions.PLURAL.BUCATA;
+               }
+           } else {
+               switch (quantity) {
+                   case 0:
+                       return quantity + ' ' + extensions.PLURAL.METRU;
+                   case 1:
+                       return quantity + ' ' + extensions.SINGLE.METRU;
+                   default:
+                       return quantity + ' ' + extensions.PLURAL.METRU;
+               }
+           }
+       }
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('baroko.front')
+        .factory('CartFactory', CartFactory);
+
+    CartFactory.$inject = ['endpoints', 'toastr', '$http'];
+
+    function CartFactory(endpoints, toastr, $http) {
+        return {
+            addToCart: addToCart
+        };
+
+        /**
+         * Get product info
+         *
+         * @param string url
+         * @returns {HttpPromise}
+         */
+        function addToCart(data) {
+            return $http.post(endpoints.BACK.ADD_TO_CART, data)
+                .then(addToCartComplete)
+                .catch(addToCartFailed)
+
+            /**
+             * success callback
+             *
+             * @param response
+             * @returns {*}
+             */
+            function addToCartComplete(response) {
+                return response.data;
+            }
+
+            /**
+             * error callback
+             *
+             * @param response
+             */
+            function addToCartFailed(response) {
+                toastr.error("Oops something went wrong!");
+            }
+        }
+    }
 })();
 (function() {
    'use strict';
@@ -148,10 +246,11 @@
         .module('baroko.front')
         .controller('ProductController', ProductController);
 
-    ProductController.$inject = ['toastr', 'ProductFactory', '$location'];
+    ProductController.$inject = ['toastr', 'ProductFactory', 'CartFactory', '$location', 'extensions'];
 
-    function ProductController(toastr, ProductFactory, $location) {
+    function ProductController(toastr, ProductFactory, CartFactory, $location, extensions) {
         var vm = this;
+        vm.submitForm = submitForm;
         vm.addQuantity = addQuantity;
         vm.removeQuantity = removeQuantity;
         vm.quantity = 0;
@@ -187,13 +286,20 @@
             return ProductFactory.getProduct(getSlugFromUrl())
                 .then(function(response) {
                     vm.product = response.product;
-                    if (vm.product.info.extension == 'bucata') {
-                        vm.singleExtension = 'bucata';
-                        vm.pluralExtension = 'bucati';
-                    } else {
-                        vm.singleExtension = 'metru';
-                        vm.pluralExtension = 'metrii';
-                    }
+                });
+        }
+
+        function submitForm() {
+
+            var data = {
+                url: getSlugFromUrl(),
+                quantity: vm.quantity,
+                price: vm.product.prices.price
+            };
+
+            return CartFactory.addToCart(data)
+                .then(function (response) {
+                    toastr.success(response.success);
                 });
         }
 

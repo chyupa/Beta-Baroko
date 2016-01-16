@@ -21,18 +21,14 @@
             New Price: <span ng-bind="productCtrl.product.prices.price | currency"></span> / <span ng-bind="productCtrl.product.info.extension"></span>
         </p>
 
-        <form method="post">
+        <form method="post" ng-submit="productCtrl.submitForm()" role="form">
             {{ csrf_field() }}
-            <button class="btn btn-default" ng-click="productCtrl.addQuantity()">+1</button>
-            <button class="btn btn-warning" ng-click="productCtrl.removeQuantity()" ng-disabled="productCtrl.quantity == 0">-1</button>
+            <button type="button" class="btn btn-default" ng-click="productCtrl.addQuantity()">+1</button>
+            <button type="button" class="btn btn-warning" ng-click="productCtrl.removeQuantity()" ng-disabled="productCtrl.quantity == 0">-1</button>
             <p>
-                Quantity: <ng-pluralize count="productCtrl.quantity"
-                                        when="{'0': '@{{ productCtrl.quantity }} @{{productCtrl.pluralExtension}}',
-                                            'one' : '@{{ productCtrl.quantity }} @{{productCtrl.singleExtension}}',
-                                            'other': '@{{ productCtrl.quantity }} @{{productCtrl.pluralExtension}}'}">
-                </ng-pluralize>
+                New Quantity: <span ng-bind="productCtrl.product.info.extension | extension:productCtrl.quantity"></span>
             </p>
-            <button type="button" class="btn btn-primary">Add to Cart</button>
+            <button type="submit" class="btn btn-primary" ng-disabled="productCtrl.quantity == 0">Add to Cart</button>
         </form>
     </div>
 @stop

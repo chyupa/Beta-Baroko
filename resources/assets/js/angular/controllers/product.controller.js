@@ -5,10 +5,11 @@
         .module('baroko.front')
         .controller('ProductController', ProductController);
 
-    ProductController.$inject = ['toastr', 'ProductFactory', '$location'];
+    ProductController.$inject = ['toastr', 'ProductFactory', 'CartFactory', '$location', 'extensions'];
 
-    function ProductController(toastr, ProductFactory, $location) {
+    function ProductController(toastr, ProductFactory, CartFactory, $location, extensions) {
         var vm = this;
+        vm.submitForm = submitForm;
         vm.addQuantity = addQuantity;
         vm.removeQuantity = removeQuantity;
         vm.quantity = 0;
@@ -44,13 +45,20 @@
             return ProductFactory.getProduct(getSlugFromUrl())
                 .then(function(response) {
                     vm.product = response.product;
-                    if (vm.product.info.extension == 'bucata') {
-                        vm.singleExtension = 'bucata';
-                        vm.pluralExtension = 'bucati';
-                    } else {
-                        vm.singleExtension = 'metru';
-                        vm.pluralExtension = 'metrii';
-                    }
+                });
+        }
+
+        function submitForm() {
+
+            var data = {
+                url: getSlugFromUrl(),
+                quantity: vm.quantity,
+                price: vm.product.prices.price
+            };
+
+            return CartFactory.addToCart(data)
+                .then(function (response) {
+                    toastr.success(response.success);
                 });
         }
 

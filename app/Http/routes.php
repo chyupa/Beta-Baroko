@@ -32,6 +32,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/{url}', ['uses' => 'ProductController@getSingleProduct', 'as' => 'front.get.singleProduct']);
 
         Route::get('/categories', ['uses' => 'CategoryController@getCategories', 'as' => 'front.get.categories']);
+
     });
 });
 
@@ -42,4 +43,6 @@ Route::group([
     Route::get('getPublicProducts', ['uses' => 'ProductController@getPublicProducts', 'as' => 'back.get.publicProducts']);
 
     Route::get('getProduct/{url}', ['uses' => 'ProductController@getProduct', 'as' => 'back.get.product']);
+
+    Route::post('/addToCart', ['uses' => 'CartController@addToCart', 'as' => 'front.post.addToCart']);
 });

@@ -31,11 +31,11 @@ elixir(function(mix) {
     //mix.scriptsIn('resources/assets/js/angular', assetsDir + 'js/baroko.js');
 
     mix.scripts([
-        'angular/baroko.constants.js',
         'angular/baroko.module.js',
+        'angular/filters/*.js',
         'angular/factories/*.js',
         'angular/controllers/*.js'
-    ],
+        ],
     assetsDir + 'js/baroko.js'
     );
 
