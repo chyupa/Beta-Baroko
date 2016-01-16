@@ -9,7 +9,7 @@
         .constant('endpoints', {
             BACK: {
                 GET_PRODUCTS: 'api/getPublicProducts',
-                GET_PRODUCT: 'api/getProduct'
+                GET_PRODUCT: 'api/getProduct/'
             }
         });
 

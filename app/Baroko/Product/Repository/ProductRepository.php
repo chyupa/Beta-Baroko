@@ -39,6 +39,8 @@ class ProductRepository
 
     public function findByUrl($url) {
         return $this->model
+          ->with('info')
+          ->with('prices')
           ->where('url', $url)
           ->firstOrFail();
     }

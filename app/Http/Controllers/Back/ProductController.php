@@ -37,4 +37,16 @@ class ProductController extends Controller
         return response()->json(['success' => 'Products retrieved', 'products' => $products]);
     }
 
+    /**
+     * Get product info
+     *
+     * @param $url
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getProduct($url) {
+        $product = $this->productRepo->findByUrl($url);
+
+        return response()->json(['product' => $product]);
+    }
+
 }

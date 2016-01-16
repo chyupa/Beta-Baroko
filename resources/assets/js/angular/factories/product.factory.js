@@ -12,8 +12,35 @@
             getProduct: getProduct
         };
 
-        function getProduct() {
-            //return $http.get(endpoints.BACK.GET_PRODUCT)
+        /**
+         * Get product info
+         *
+         * @param string url
+         * @returns {HttpPromise}
+         */
+        function getProduct(url) {
+            return $http.get(endpoints.BACK.GET_PRODUCT + url)
+                .then(getProductComplete)
+                .catch(getProductFailed)
+
+            /**
+             * success callback
+             *
+             * @param response
+             * @returns {*}
+             */
+            function getProductComplete(response) {
+                return response.data;
+            }
+
+            /**
+             * error callback
+             *
+             * @param response
+             */
+            function getProductFailed(response) {
+                toastr.error("Oops something went wrong!");
+            }
         }
     }
 })();

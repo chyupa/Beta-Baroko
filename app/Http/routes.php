@@ -38,4 +38,6 @@ Route::group([
   'namespace' => 'Back',
 ], function () {
     Route::get('getPublicProducts', ['uses' => 'ProductController@getPublicProducts', 'as' => 'back.get.publicProducts']);
+
+    Route::get('getProduct/{url}', ['uses' => 'ProductController@getProduct', 'as' => 'back.get.product']);
 });
