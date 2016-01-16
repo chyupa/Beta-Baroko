@@ -17,8 +17,8 @@ class CreateSessionsCartTable extends Migration
             $table->increments('id');
             $table->string('session_id');
             $table->integer('product_id');
-            $table->float('price', 2);
-            $table->float('quantity', 2);
+            $table->float('price');
+            $table->float('quantity');
 
             $table->timestamps();
         });

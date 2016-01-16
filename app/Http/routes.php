@@ -39,6 +39,7 @@ Route::group(['middleware' => ['web']], function () {
 Route::group([
   'prefix' => 'api',
   'namespace' => 'Back',
+  'middleware' => ['web']
 ], function () {
     Route::get('getPublicProducts', ['uses' => 'ProductController@getPublicProducts', 'as' => 'back.get.publicProducts']);
 
