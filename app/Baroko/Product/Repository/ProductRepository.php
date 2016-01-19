@@ -2,18 +2,19 @@
 
 namespace App\Baroko\Product\Repository;
 
+use App\Baroko\BarokoRepository;
 use App\Baroko\Product\Model\Product;
 
 /**
  * Class ProductRepository
  * @package App\Baroko\Product\Repository
  */
-class ProductRepository
+class ProductRepository extends BarokoRepository
 {
     /**
      * @var Product
      */
-    private $model;
+    protected $model;
 
     /**
      * ProductRepository constructor.

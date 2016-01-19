@@ -2,18 +2,19 @@
 
 namespace App\Baroko\SessionCart\Repository;
 
+use App\Baroko\BarokoRepository;
 use App\Baroko\SessionCart\Model\SessionCart;
 
 /**
  * Class SessionCartRepository
  * @package App\Baroko\SessionCart\Repository
  */
-class SessionCartRepository
+class SessionCartRepository extends BarokoRepository
 {
     /**
      * @var SessionCart
      */
-    private $model;
+    protected $model;
 
     /**
      * SessionCartRepository constructor.
@@ -24,16 +25,6 @@ class SessionCartRepository
     }
 
     /**
-     * Store to DB
-     *
-     * @param $sessionData
-     * @return static
-     */
-    public function addToCart($sessionData) {
-        return $this->model->create($sessionData);
-    }
-
-    /**
      * Update cart
      *
      * @param $sessionData
@@ -41,7 +32,6 @@ class SessionCartRepository
      * @return mixed
      */
     public function updateCart($sessionData, $sessionCartId) {
-//        dd($sessionCart);
         return $this->model
           ->where('id', $sessionCartId)
           ->update($sessionData);

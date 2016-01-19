@@ -67,19 +67,15 @@ class CartController extends Controller
         // check if current user has this product in cart and update it
         $sessionCart = $this->sessionCartRepo->findBySessionIdAndProductId($this->sessionId, $product->id);
         if ($sessionCart) {
-            $this->updateCart($sessionCartData, $sessionCart->id);
+            $sessionCart->update($sessionCartData);
 
             return response()->json(['success' => 'Cart updated']);
         }
 
         //save cart
-        $this->sessionCartRepo->addToCart($sessionCartData);
+        $this->sessionCartRepo->create($sessionCartData);
 
         //return success
         return response()->json(['success' => 'Product added to cart!']);
-    }
-
-    public function updateCart($sessionCartData, $sessionCartId) {
-        $this->sessionCartRepo->updateCart($sessionCartData, $sessionCartId);
     }
 }
