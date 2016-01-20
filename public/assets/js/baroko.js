@@ -220,6 +220,35 @@
     'use strict';
 
     angular
+      .module('baroko.front')
+      .factory('OrderFactory', OrderFactory);
+
+    OrderFactory.$inject = ['$http', 'endpoints'];
+
+    function OrderFactory($http, endpoints) {
+        return {
+            createOrder: createOrder
+        }
+
+        function createOrder(data) {
+            return $http.post(endpoints, data)
+              .then(createOrderComplete)
+              .catch(createOrderFailed);
+
+            function createOrderComplete(response) {
+                return response.data;
+            }
+
+            function createOrderFailed(response) {
+                toastr.error("Ooops! We couldn't add your order");
+            }
+        }
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
         .module('baroko.front')
         .factory('ProductFactory', ProductFactory);
 
@@ -273,8 +302,8 @@
 
     function CartController(toastr, CartFactory, transportFeeFilter) {
         var vm = this;
-        vm.total = 0;
         vm.transportFee = transportFeeFilter(vm.total);
+        vm.total = 0;
 
         activate();
 
@@ -287,6 +316,8 @@
                   for (var i = 0; i < cartContentsLength; i++) {
                       vm.total += response[i].quantity * response[i].price;
                   }
+                  //add transportFee to total
+                  vm.total += vm.transportFee;
               });
         }
     }
@@ -323,6 +354,25 @@
          */
         function activate() {
             getProducts();
+        }
+    }
+})();
+(function() {
+    'use strict'
+
+    angular
+      .module('baroko.front')
+      .controller('OrderController', OrderController)
+
+    OrderController.$inject = ['toastr'];
+
+    function OrderController(toastr) {
+        var vm = this;
+
+        activate();
+
+        function activate() {
+            toastr.success('Order Controller activated');
         }
     }
 })();

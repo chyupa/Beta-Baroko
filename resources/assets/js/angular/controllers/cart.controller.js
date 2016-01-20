@@ -9,8 +9,8 @@
 
     function CartController(toastr, CartFactory, transportFeeFilter) {
         var vm = this;
-        vm.total = 0;
         vm.transportFee = transportFeeFilter(vm.total);
+        vm.total = 0;
 
         activate();
 
@@ -23,6 +23,8 @@
                   for (var i = 0; i < cartContentsLength; i++) {
                       vm.total += response[i].quantity * response[i].price;
                   }
+                  //add transportFee to total
+                  vm.total += vm.transportFee;
               });
         }
     }
