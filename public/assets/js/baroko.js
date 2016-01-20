@@ -31,6 +31,31 @@
     'use strict';
 
     angular
+      .module('baroko.front')
+      .filter('transportFee', transportFee);
+
+    /**
+     * Transport Fee function that returns the actual amount of the fee
+     *
+     * @returns {Function}
+     */
+    function transportFee() {
+        return function(total) {
+            switch (total) {
+                case total < 300:
+                    return 22.5;
+                case total < 700:
+                    return 9;
+                default:
+                    return 0;
+            }
+        }
+    }
+})();
+(function () {
+    'use strict';
+
+    angular
         .module('baroko.front')
         .filter('extension', extension);
 
@@ -244,10 +269,12 @@
       .module('baroko.front')
       .controller('CartController', CartController)
 
-    CartController.$inject = ['toastr', 'CartFactory'];
+    CartController.$inject = ['toastr', 'CartFactory', 'transportFeeFilter'];
 
-    function CartController(toastr, CartFactory) {
+    function CartController(toastr, CartFactory, transportFeeFilter) {
         var vm = this;
+        vm.total = 0;
+        vm.transportFee = transportFeeFilter(vm.total);
 
         activate();
 
@@ -255,7 +282,11 @@
             return CartFactory.getCartContents()
               .then(function(response) {
                   vm.cartContents = response;
-                  console.log(response);
+                  //calculate total of cart contents
+                  var cartContentsLength = response.length;
+                  for (var i = 0; i < cartContentsLength; i++) {
+                      vm.total += response[i].quantity * response[i].price;
+                  }
               });
         }
     }

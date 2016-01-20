@@ -18,12 +18,25 @@
             <td ng-bind="cartContent.quantity"></td>
             <td ng-bind="cartContent.price | currency"></td>
             <td>
-              <button type="button" class="btn btn-primary">+1</button>
+              <button type="button" class="btn btn-default">+1</button>
               <button type="button" class="btn btn-warning">-1</button>
             </td>
           </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Transport fee: <span ng-bind="cartCtrl.transportFee | currency"></span></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Total: <span ng-bind="cartCtrl.total | currency"></span></td>
+          </tr>
         </tbody>
       </table>
+      <a class="pull-right btn btn-primary" href="#">Checkout</a>
     </div>
   </div>
 @stop
