@@ -24,4 +24,11 @@ class SessionCart extends Model
      * @var array
      */
     protected $hidden = ['id', 'session_id', 'created_at', 'updated_at'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function product() {
+        return $this->belongsTo('App\Baroko\Product\Model\Product', 'product_id');
+    }
 }

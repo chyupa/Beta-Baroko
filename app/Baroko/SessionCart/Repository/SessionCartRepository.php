@@ -60,6 +60,7 @@ class SessionCartRepository extends BarokoRepository
      */
     public function getCartBySessionId($sessionId) {
         return $this->model
+          ->with('product')
           ->where('session_id', $sessionId)
           ->get();
     }

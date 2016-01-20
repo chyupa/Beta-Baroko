@@ -14,12 +14,15 @@
         </thead>
         <tbody>
           <tr ng-repeat="cartContent in cartCtrl.cartContents">
-            <td>Product @{{ $index }}</td>
-            <td ng-bind="cartContent.quantity"></td>
-            <td ng-bind="cartContent.price | currency"></td>
             <td>
-              <button type="button" class="btn btn-default">+1</button>
-              <button type="button" class="btn btn-warning">-1</button>
+              <a ng-href="@{{ cartContent.product.url }}" ng-bind="cartContent.product.name"></a>
+            </td>
+            <td ng-bind="cartContent.quantity"></td>
+            <td ng-bind="cartContent.price * cartContent.quantity | currency"></td>
+            <td>
+              <button type="button" class="btn btn-default" ng-click="++cartContent.quantity">+1</button>
+              <button type="button" class="btn btn-warning" ng-click="--cartContent.quantity">-1</button>
+              <button type="button" class="btn btn-danger" ng-click="">Remove</button>
             </td>
           </tr>
           <tr>

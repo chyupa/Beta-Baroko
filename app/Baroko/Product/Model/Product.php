@@ -48,4 +48,18 @@ class Product extends Model
         return $this->hasOne('App\Baroko\ProductOutlet\Model\ProductOutlet');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function category() {
+        return $this->belongsTo('App\Baroko\Category\Model\Category');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function subcategory() {
+        return $this->belongsTo('App\Baroko\Subcategory\Model\Subcategory');
+    }
+
 }
