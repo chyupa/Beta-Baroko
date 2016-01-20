@@ -19,4 +19,9 @@ class SessionCart extends Model
      * @var array
      */
     protected $fillable = ['session_id', 'product_id', 'price', 'quantity'];
+
+    /**
+     * @var array
+     */
+    protected $hidden = ['id', 'session_id', 'created_at', 'updated_at'];
 }
