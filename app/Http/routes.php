@@ -29,9 +29,14 @@ Route::group(['middleware' => ['web']], function () {
     ], function () {
         Route::get('/', ['uses' => 'HomeController@getHome', 'as' => 'front.get.home']);
 
-        Route::get('/{url}', ['uses' => 'ProductController@getSingleProduct', 'as' => 'front.get.singleProduct']);
 
-        Route::get('/categories', ['uses' => 'CategoryController@getCategories', 'as' => 'front.get.categories']);
+        //TODO: uncomment this line when I implement the Categories/Subcategories logic
+//        Route::get('categories', ['uses' => 'CategoryController@getCategories', 'as' => 'front.get.categories']);
+
+        Route::get('/cart', ['uses' => 'CartController@getCartPage', 'as' => 'front.get.cart']);
+
+        // Keep in mind that this needs to be the last route in this group otherwise the other ones will return 404
+        Route::get('{url}', ['uses' => 'ProductController@getSingleProduct', 'as' => 'front.get.singleProduct']);
 
     });
 });
@@ -45,5 +50,7 @@ Route::group([
 
     Route::get('getProduct/{url}', ['uses' => 'ProductController@getProduct', 'as' => 'back.get.product']);
 
-    Route::post('/addToCart', ['uses' => 'CartController@addToCart', 'as' => 'front.post.addToCart']);
+    Route::post('addToCart', ['uses' => 'CartController@addToCart', 'as' => 'back.post.addToCart']);
+
+    Route::get('getCartContents', ['uses' => 'CartController@getCartContents', 'as' => 'back.get.cartContents']);
 });

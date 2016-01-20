@@ -11,7 +11,8 @@
                 GET_PRODUCTS: 'api/getPublicProducts',
                 GET_PRODUCT: 'api/getProduct/',
 
-                ADD_TO_CART: 'api/addToCart'
+                ADD_TO_CART: 'api/addToCart',
+                GET_CART_CONTENTS: 'api/getCartContents'
             }
         })
         .constant('extensions', {
@@ -77,7 +78,8 @@
 
     function CartFactory(endpoints, toastr, $http) {
         return {
-            addToCart: addToCart
+            addToCart: addToCart,
+            getCartContents: getCartContents
         };
 
         /**
@@ -108,6 +110,37 @@
              */
             function addToCartFailed(response) {
                 toastr.error("Oops something went wrong!");
+            }
+        }
+
+        /**
+         * Get cart contents
+         *
+         * @returns {HttpPromise}
+         */
+        function getCartContents() {
+            return $http.get(endpoints.BACK.GET_CART_CONTENTS)
+              .then(getCartContentsComplete)
+              .catch(getCartContentsFailed);
+
+            /**
+             * success callback
+             *
+             * @param response
+             * @returns {Object}
+             */
+            function getCartContentsComplete(response) {
+                return response.data;
+            }
+
+            /**
+             * error callback
+             *
+             * @param response
+             */
+            function getCartContentsFailed(response) {
+                toastr.error('Oops something went wrong with your cart!');
+                console.error(response);
             }
         }
     }
@@ -201,6 +234,29 @@
             function getProductFailed(response) {
                 toastr.error("Oops something went wrong!");
             }
+        }
+    }
+})();
+(function() {
+   'use strict';
+
+    angular
+      .module('baroko.front')
+      .controller('CartController', CartController)
+
+    CartController.$inject = ['toastr', 'CartFactory'];
+
+    function CartController(toastr, CartFactory) {
+        var vm = this;
+
+        activate();
+
+        function activate() {
+            return CartFactory.getCartContents()
+              .then(function(response) {
+                  vm.cartContents = response;
+                  console.log(response);
+              });
         }
     }
 })();

@@ -51,4 +51,29 @@ class SessionCartRepository extends BarokoRepository
           ->where('product_id', $productId)
           ->first();
     }
+
+    /**
+     * Get cart contents by session id
+     *
+     * @param $sessionId
+     * @return mixed
+     */
+    public function getCartBySessionId($sessionId) {
+        return $this->model
+          ->where('session_id', $sessionId)
+          ->get();
+    }
+
+    /**
+     * Get the cart items number
+     * How many items the user has in cart
+     *
+     * @param $sessionId
+     * @return mixed
+     */
+    public function getCartItemsNumber($sessionId) {
+        return $this->model
+          ->where('session_id', $sessionId)
+          ->count();
+    }
 }

@@ -8,7 +8,7 @@
 <body ng-app="baroko.front">
   <div class="container">
     <header>
-      asd
+      @include('front.partials.header-menu')
     </header>
     @yield('content')
     <footer>

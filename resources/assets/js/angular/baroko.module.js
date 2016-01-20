@@ -11,7 +11,8 @@
                 GET_PRODUCTS: 'api/getPublicProducts',
                 GET_PRODUCT: 'api/getProduct/',
 
-                ADD_TO_CART: 'api/addToCart'
+                ADD_TO_CART: 'api/addToCart',
+                GET_CART_CONTENTS: 'api/getCartContents'
             }
         })
         .constant('extensions', {

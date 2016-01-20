@@ -78,4 +78,19 @@ class CartController extends Controller
         //return success
         return response()->json(['success' => 'Product added to cart!']);
     }
+
+    /**
+     * Get cart contents
+     *
+     * @return mixed
+     */
+    public function getCartContents() {
+        //get sesison id
+        $sessionId = session()->getId();
+
+        //find products in cart by session id
+        $cartSession = $this->sessionCartRepo->getCartBySessionId($sessionId);
+
+        return response()->json($cartSession);
+    }
 }
