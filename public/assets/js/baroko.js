@@ -43,13 +43,12 @@
      */
     function transportFee() {
         return function(total) {
-            switch (total) {
-                case total < 300:
-                    return 22.5;
-                case total < 700:
-                    return 9;
-                default:
-                    return 0;
+            if (total < 300) {
+                return 22.5;
+            } else if (total < 700) {
+                return 9;
+            } else {
+                return 0;
             }
         }
     }
@@ -373,7 +372,7 @@
         vm.updateCartTotals = updateCartTotals;
         vm.removeCartItem = removeCartItem;
         vm.cartContents = {};
-        vm.transportFee = transportFeeFilter(vm.total);
+        vm.transportFee = 0;
         vm.total = 0;
 
         activate();
@@ -382,7 +381,7 @@
          * Increase item quantity
          *
          * @param index
-         * @returns {number}
+         * @returns {HttpPromise}
          */
         function addQuantity(index) {
             return updateCartQuantity(index, true);
@@ -392,7 +391,7 @@
          * Decrease item quantity
          *
          * @param index
-         * @returns {number}
+         * @returns {HttpPromise}
          */
         function removeQuantity(index) {
             return updateCartQuantity(index, false);
@@ -412,6 +411,7 @@
                 .then(function (response) {
                     toastr.success(response.success);
                     vm.cartContents.splice(index, 1);
+                    updateCartTotals();
                 });
         }
 
@@ -421,11 +421,14 @@
         function updateCartTotals() {
             //calculate total of cart contents
             var cartContentsLength = vm.cartContents.length;
+            var total = 0;
             for (var i = 0; i < cartContentsLength; i++) {
-                vm.total += vm.cartContents[i].quantity * vm.cartContents[i].price;
+                total += vm.cartContents[i].quantity * vm.cartContents[i].price;
             }
+            //calculate transportFee
+            vm.transportFee = transportFeeFilter(total);
             //add transportFee to total
-            vm.total += vm.transportFee;
+            vm.total = total + vm.transportFee;
         }
 
         /**
@@ -446,6 +449,7 @@
                 .then(function (response) {
                     toastr.success(response.success);
                     increase ? ++vm.cartContents[index].quantity : --vm.cartContents[index].quantity;
+                    updateCartTotals();
                 });
         }
 

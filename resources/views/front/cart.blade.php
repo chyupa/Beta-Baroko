@@ -35,7 +35,7 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>Total: <span ng-bind="cartCtrl.updateCartTotals() | currency"></span></td>
+            <td>Total: <span ng-bind="cartCtrl.total | currency"></span></td>
           </tr>
         </tbody>
       </table>
