@@ -9,6 +9,7 @@
 
     function CheckoutController(toastr) {
         var vm = this;
+        vm.formData = {};
 
         activate();
 
