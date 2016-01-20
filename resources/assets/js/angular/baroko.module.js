@@ -12,7 +12,9 @@
                 GET_PRODUCT: 'api/getProduct/',
 
                 ADD_TO_CART: 'api/addToCart',
-                GET_CART_CONTENTS: 'api/getCartContents'
+                GET_CART_CONTENTS: 'api/getCartContents',
+                REMOVE_CART_ITEM: 'api/removeCartItem',
+                UPDATE_CART_QUANTITY: 'api/updateCartQuantity'
             }
         })
         .constant('extensions', {

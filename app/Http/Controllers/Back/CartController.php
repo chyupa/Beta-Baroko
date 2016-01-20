@@ -93,4 +93,44 @@ class CartController extends Controller
 
         return response()->json($cartSession);
     }
+
+    /**
+     * Remove sessionCart instance from DB
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function removeCartItem(Request $request) {
+        //get product by url
+        $product = $this->productRepo->findByUrl($request->get('url'));
+
+        //get a sessionCart instance
+        $sessionCart = $this->sessionCartRepo->findBySessionIdAndProductId($this->sessionId, $product->id);
+
+        //destroy it
+        $this->sessionCartRepo->destroy($sessionCart->id);
+
+        //return response
+        return response()->json(['success' => 'Item removed from cart']);
+    }
+
+    /**
+     * Change item cart quantity
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateCartQuantity(Request $request) {
+        //get product by url
+        $product = $this->productRepo->findByUrl($request->get('url'));
+
+        //get session cart instance
+        $sessionCart = $this->sessionCartRepo->findBySessionIdAndProductId($this->sessionId, $product->id);
+
+        //update the new quantity
+        $sessionCart->update($request->all());
+
+        //return response
+        return response()->json(['success' => 'Cart item quantity updated']);
+    }
 }

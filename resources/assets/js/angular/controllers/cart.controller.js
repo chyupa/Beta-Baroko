@@ -1,53 +1,107 @@
-(function() {
-   'use strict';
+(function () {
+    'use strict';
 
     angular
-      .module('baroko.front')
-      .controller('CartController', CartController)
+        .module('baroko.front')
+        .controller('CartController', CartController)
 
     CartController.$inject = ['toastr', 'CartFactory', 'transportFeeFilter'];
 
     function CartController(toastr, CartFactory, transportFeeFilter) {
         var vm = this;
+        vm.addQuantity = addQuantity;
+        vm.removeQuantity = removeQuantity;
+        vm.updateCartTotals = updateCartTotals;
+        vm.removeCartItem = removeCartItem;
+        vm.cartContents = {};
         vm.transportFee = transportFeeFilter(vm.total);
         vm.total = 0;
 
         activate();
 
-        function updateCartItem(index) {
-            var data = {
-                url: getSlugFromUrl()
-            };
-            var data = vm.cartContents[index];
-            return CartFactory.addToCart(data)
-                .then(function(response) {
-                    console.log(response);
-                    toastr.success('updateCartItem');
-                });
+        /**
+         * Increase item quantity
+         *
+         * @param index
+         * @returns {number}
+         */
+        function addQuantity(index) {
+            return updateCartQuantity(index, true);
         }
 
-        function activate() {
-            return CartFactory.getCartContents()
-                .then(function(response) {
-                    console.log(response);
-                    vm.cartContents = response;
-                    //calculate total of cart contents
-                    var cartContentsLength = response.length;
-                    for (var i = 0; i < cartContentsLength; i++) {
-                        vm.total += response[i].quantity * response[i].price;
-                    }
-                    //add transportFee to total
-                    vm.total += vm.transportFee;
+        /**
+         * Decrease item quantity
+         *
+         * @param index
+         * @returns {number}
+         */
+        function removeQuantity(index) {
+            return updateCartQuantity(index, false);
+        }
+
+        /**
+         * Remove item from cart
+         *
+         * @param index
+         * @returns {*|Array.<T>}
+         */
+        function removeCartItem(index) {
+            var data = {
+                url: vm.cartContents[index].product.url
+            };
+            return CartFactory.removeCartItem(data)
+                .then(function (response) {
+                    toastr.success(response.success);
+                    vm.cartContents.splice(index, 1);
                 });
         }
 
         /**
-         * helper function for getting the slug
-         *
-         * @returns {string}
+         * TODO: need to calculate the updateCartTotals every time the quantity changes
          */
-        function getSlugFromUrl() {
-            return $location.absUrl().split('/').pop();
+        function updateCartTotals() {
+            //calculate total of cart contents
+            var cartContentsLength = vm.cartContents.length;
+            for (var i = 0; i < cartContentsLength; i++) {
+                vm.total += vm.cartContents[i].quantity * vm.cartContents[i].price;
+            }
+            //add transportFee to total
+            vm.total += vm.transportFee;
+        }
+
+        /**
+         * Update Cart Item in backend
+         * TODO: need to think about this
+         *
+         * @param index
+         * @param increase
+         * @returns {HttpPromise}
+         */
+        function updateCartQuantity(index, increase) {
+            var quantity = vm.cartContents[index].quantity;
+            var data = {
+                url: vm.cartContents[index].product.url,
+                quantity: increase ? ++quantity : --quantity
+            };
+            return CartFactory.updateCartQuantity(data)
+                .then(function (response) {
+                    toastr.success(response.success);
+                    increase ? ++vm.cartContents[index].quantity : --vm.cartContents[index].quantity;
+                });
+        }
+
+        /**
+         * Activate function
+         *
+         * @returns {HttpPromise}
+         */
+        function activate() {
+            return CartFactory.getCartContents()
+                .then(function (response) {
+                    console.log(response);
+                    vm.cartContents = response;
+                    updateCartTotals();
+                });
         }
     }
 })();

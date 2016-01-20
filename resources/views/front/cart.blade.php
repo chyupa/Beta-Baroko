@@ -20,9 +20,9 @@
             <td ng-bind="cartContent.quantity"></td>
             <td ng-bind="cartContent.price * cartContent.quantity | currency"></td>
             <td>
-              <button type="button" class="btn btn-default" ng-click="++cartContent.quantity">+1</button>
-              <button type="button" class="btn btn-warning" ng-click="--cartContent.quantity">-1</button>
-              <button type="button" class="btn btn-danger" ng-click="">Remove</button>
+              <button type="button" class="btn btn-default" ng-click="cartCtrl.addQuantity($index)">+1</button>
+              <button type="button" class="btn btn-warning" ng-click="cartCtrl.removeQuantity($index)" ng-disabled="cartCtrl.cartContents[$index].quantity == 0">-1</button>
+              <button type="button" class="btn btn-danger" ng-click="cartCtrl.removeCartItem($index)">Remove</button>
             </td>
           </tr>
           <tr>
@@ -35,7 +35,7 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>Total: <span ng-bind="cartCtrl.total | currency"></span></td>
+            <td>Total: <span ng-bind="cartCtrl.updateCartTotals() | currency"></span></td>
           </tr>
         </tbody>
       </table>

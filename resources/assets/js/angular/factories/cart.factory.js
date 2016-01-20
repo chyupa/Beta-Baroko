@@ -10,7 +10,9 @@
     function CartFactory(endpoints, toastr, $http) {
         return {
             addToCart: addToCart,
-            getCartContents: getCartContents
+            getCartContents: getCartContents,
+            removeCartItem: removeCartItem,
+            updateCartQuantity: updateCartQuantity
         };
 
         /**
@@ -72,6 +74,68 @@
             function getCartContentsFailed(response) {
                 toastr.error('Oops something went wrong with your cart!');
                 console.error(response);
+            }
+        }
+
+        /**
+         * Remove cart item
+         *
+         * @param data
+         * @returns {HttpPromise}
+         */
+        function removeCartItem(data) {
+            return $http.post(endpoints.BACK.REMOVE_CART_ITEM, data)
+                .then(removeCartItemComplete)
+                .catch(removeCartItemFailed);
+
+            /**
+             * Success callback
+             *
+             * @param response
+             * @returns {Object}
+             */
+            function removeCartItemComplete(response) {
+                return response.data;
+            }
+
+            /**
+             * Error callback
+             *
+             * @param response
+             */
+            function removeCartItemFailed(reponse) {
+                toastr.error('Ooops! Could not remove the cart item');
+            }
+        }
+
+        /**
+         * Update cart item
+         *
+         * @param data
+         * @returns {HttpPromise}
+         */
+        function updateCartQuantity(data) {
+            return $http.post(endpoints.BACK.UPDATE_CART_QUANTITY, data)
+                .then(updateCartQuantityComplete)
+                .catch(updateCartQuantityFailed);
+
+            /**
+             * Success callback
+             *
+             * @param response
+             * @returns {Object}
+             */
+            function updateCartQuantityComplete(response) {
+                return response.data;
+            }
+
+            /**
+             * Error callback
+             *
+             * @param response
+             */
+            function updateCartQuantityFailed(reponse) {
+                toastr.error('Ooops! Could not update the cart item');
             }
         }
     }

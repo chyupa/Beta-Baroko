@@ -53,4 +53,8 @@ Route::group([
     Route::post('addToCart', ['uses' => 'CartController@addToCart', 'as' => 'back.post.addToCart']);
 
     Route::get('getCartContents', ['uses' => 'CartController@getCartContents', 'as' => 'back.get.cartContents']);
+
+    Route::post('removeCartItem', ['uses' => 'CartController@removeCartItem', 'as' => 'back.post.removeCartItem']);
+
+    Route::post('updateCartQuantity', ['uses' => 'CartController@updateCartQuantity', 'as' => 'back.post.updateCartQuantity']);
 });
