@@ -33,7 +33,9 @@ Route::group(['middleware' => ['web']], function () {
         //TODO: uncomment this line when I implement the Categories/Subcategories logic
 //        Route::get('categories', ['uses' => 'CategoryController@getCategories', 'as' => 'front.get.categories']);
 
-        Route::get('/cart', ['uses' => 'FrontController@getCartPage', 'as' => 'front.get.cart']);
+        Route::get('cart', ['uses' => 'FrontController@getCartPage', 'as' => 'front.get.cart']);
+
+        Route::get('checkout', ['uses' => 'FrontController@getCheckout', 'as' => 'front.get.checkout']);
 
         // Keep in mind that this needs to be the last route in this group otherwise the other ones will return 404
         Route::get('{url}', ['uses' => 'ProductController@getSingleProduct', 'as' => 'front.get.singleProduct']);

@@ -39,7 +39,7 @@
           </tr>
         </tbody>
       </table>
-      <a class="pull-right btn btn-primary" href="#">Checkout</a>
+      <a class="pull-right btn btn-primary" href="{{ route('front.get.checkout') }}">Checkout</a>
     </div>
   </div>
 @stop
