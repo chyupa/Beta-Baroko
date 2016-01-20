@@ -27,7 +27,7 @@ class ProductController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getSingleProduct($url) {
-        $product = $this->productRepo->findByUrl($url);
+        $this->productRepo->findByUrl($url);
 
         return view('front.product');
     }
