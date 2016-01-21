@@ -59,4 +59,6 @@ Route::group([
     Route::post('removeCartItem', ['uses' => 'CartController@removeCartItem', 'as' => 'back.post.removeCartItem']);
 
     Route::post('updateCartQuantity', ['uses' => 'CartController@updateCartQuantity', 'as' => 'back.post.updateCartQuantity']);
+
+    Route::post('placeOrder', ['uses' => 'OrderController@placeOrder', 'as' => 'back.post.placeOrder']);
 });

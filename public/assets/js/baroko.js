@@ -14,7 +14,9 @@
                 ADD_TO_CART: 'api/addToCart',
                 GET_CART_CONTENTS: 'api/getCartContents',
                 REMOVE_CART_ITEM: 'api/removeCartItem',
-                UPDATE_CART_QUANTITY: 'api/updateCartQuantity'
+                UPDATE_CART_QUANTITY: 'api/updateCartQuantity',
+
+                PLACE_ORDER: 'api/placeOrder'
             }
         })
         .constant('extensions', {
@@ -231,6 +233,63 @@
              */
             function updateCartQuantityFailed(reponse) {
                 toastr.error('Ooops! Could not update the cart item');
+            }
+        }
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+      .module('baroko.front')
+      .factory('CheckoutFactory', CheckoutFactory);
+
+    CheckoutFactory.$inject = ['$http', 'endpoints', 'toastr'];
+
+    /**
+     * Checkout factory
+     *
+     * @param $http
+     * @param endpoints
+     * @param toastr
+     * @returns {{placeOrder: placeOrder}}
+     * @constructor
+     */
+    function CheckoutFactory($http, endpoints, toastr) {
+        return {
+            placeOrder: placeOrder
+        };
+
+        /**
+         * Place order
+         *
+         * @param data
+         * @returns {HttpPromise}
+         */
+        function placeOrder(data) {
+            return $http.post(endpoints.BACK.PLACE_ORDER, data)
+              .then(placeOrderComplete)
+              .catch(placeOrderFailed);
+
+            /**
+             * success callback
+             *
+             * @param response
+             * @returns {Object}
+             */
+            function placeOrderComplete(response) {
+                return response.data;
+            }
+
+            /**
+             * error callback
+             * show toast
+             *
+             * @param response
+             */
+            function placeOrderFailed(response) {
+                console.log(response);
+                toastr.error('Ooops! Could not place the order');
             }
         }
     }
@@ -475,17 +534,34 @@
         .module('baroko.front')
         .controller('CheckoutController', CheckoutController);
 
-    CheckoutController.$inject = ['toastr'];
+    CheckoutController.$inject = ['CheckoutFactory', 'toastr'];
 
-    function CheckoutController(toastr) {
+    function CheckoutController(CheckoutFactory, toastr) {
         var vm = this;
+        vm.placeOrder = placeOrder;
         vm.formData = {};
 
         activate();
 
+        /**
+         * place order
+         * @returns {HttpPromise}
+         */
+        function placeOrder() {
+            return CheckoutFactory.placeOrder(vm.formData)
+              .then(function(response) {
+                  console.log(response);
+              });
+        }
+
+        /**
+         * activation function
+         */
         function activate() {
             toastr.success('CheckoutController activated');
         }
+
+
     }
 })();
 (function () {
