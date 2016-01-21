@@ -19,4 +19,11 @@ class Order extends Model
      * @var array
      */
     protected $fillable = ['session_id', 'total', 'transport_fee', 'discount'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function info() {
+        return $this->hasOne('App\Baroko\OrderInfo\Model\OrderInfo');
+    }
 }

@@ -77,4 +77,42 @@ class SessionCartRepository extends BarokoRepository
           ->where('session_id', $sessionId)
           ->count();
     }
+
+    /**
+     * Calculate cart total and transport fee by session id
+     *
+     * @param $sessionCart
+     * @return array
+     */
+    public function calculateTotalBySessionId($sessionCart) {
+        $total = 0;
+        foreach ($sessionCart as $item) {
+            $total += $item->quantity * $item->price;
+        }
+
+        $transportFee = $this->calculateTransportFee($total);
+
+        return [
+            'total' => $total,
+            'transportFee' => $transportFee
+        ];
+    }
+
+    /**
+     * Calculate transport fee based on total
+     *
+     * @param $total
+     * @return float|int
+     */
+    private function calculateTransportFee($total) {
+        if ($total < 300) {
+            $transportFee = 22.5;
+        } elseif ($total < 700) {
+            $transportFee = 9;
+        } else {
+            $transportFee = 0;
+        }
+
+        return $transportFee;
+    }
 }

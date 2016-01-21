@@ -28,10 +28,19 @@ class FrontController extends Controller
 
     /**
      * Get Checkout page
-     *
+     * TODO: restrict access to this page to users with session carts
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getCheckout() {
         return view('front.checkout');
+    }
+
+    /**
+     * Thank you page
+     * TODO: restrict access to this page to users who ??? WHO WHAT
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getThankYou() {
+        return view('front.thank-you');
     }
 }

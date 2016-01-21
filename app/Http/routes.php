@@ -37,6 +37,8 @@ Route::group(['middleware' => ['web']], function () {
 
         Route::get('checkout', ['uses' => 'FrontController@getCheckout', 'as' => 'front.get.checkout']);
 
+        Route::get('thank-you', ['uses' => 'FrontController@getThankYou', 'as' => 'front.get.thankYou']);
+
         // Keep in mind that this needs to be the last route in this group otherwise the other ones will return 404
         Route::get('{url}', ['uses' => 'ProductController@getSingleProduct', 'as' => 'front.get.singleProduct']);
 

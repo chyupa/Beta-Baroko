@@ -17,6 +17,9 @@
                 UPDATE_CART_QUANTITY: 'api/updateCartQuantity',
 
                 PLACE_ORDER: 'api/placeOrder'
+            },
+            FRONT: {
+                THANK_YOU: 'thank-you'
             }
         })
         .constant('extensions', {

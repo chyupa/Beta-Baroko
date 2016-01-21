@@ -17,6 +17,9 @@
                 UPDATE_CART_QUANTITY: 'api/updateCartQuantity',
 
                 PLACE_ORDER: 'api/placeOrder'
+            },
+            FRONT: {
+                THANK_YOU: 'thank-you'
             }
         })
         .constant('extensions', {
@@ -534,9 +537,9 @@
         .module('baroko.front')
         .controller('CheckoutController', CheckoutController);
 
-    CheckoutController.$inject = ['CheckoutFactory', 'toastr'];
+    CheckoutController.$inject = ['CheckoutFactory', 'toastr', '$window'];
 
-    function CheckoutController(CheckoutFactory, toastr) {
+    function CheckoutController(CheckoutFactory, toastr, $window) {
         var vm = this;
         vm.placeOrder = placeOrder;
         vm.formData = {};
@@ -550,7 +553,9 @@
         function placeOrder() {
             return CheckoutFactory.placeOrder(vm.formData)
               .then(function(response) {
-                  console.log(response);
+                  if (response.success) {
+                      $window.location.href = response.success;
+                  }
               });
         }
 
