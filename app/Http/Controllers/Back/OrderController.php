@@ -50,7 +50,7 @@ class OrderController extends Controller
 
         $this->notifications->sendOrderEmailToCustomer($order, $cartTotals);
         $this->notifications->sendOrderEmailToAdmin($order, $cartTotals);
-        
+
         //generate a new session id
         session()->regenerate();
 

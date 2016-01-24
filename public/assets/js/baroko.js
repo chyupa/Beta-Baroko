@@ -16,7 +16,9 @@
                 REMOVE_CART_ITEM: 'api/removeCartItem',
                 UPDATE_CART_QUANTITY: 'api/updateCartQuantity',
 
-                PLACE_ORDER: 'api/placeOrder'
+                PLACE_ORDER: 'api/placeOrder',
+
+                GET_CATEGORIES: 'api/getCategories'
             },
             FRONT: {
                 THANK_YOU: 'thank-you'
@@ -236,6 +238,61 @@
              */
             function updateCartQuantityFailed(reponse) {
                 toastr.error('Ooops! Could not update the cart item');
+            }
+        }
+    }
+})();
+(function () {
+    'use strict';
+
+    angular
+        .module('baroko.front')
+        .factory('CategoriesFactory', CategoriesFactory);
+
+    CategoriesFactory.$inject = ['$http', 'endpoints', 'toastr'];
+
+    /**
+     * Categories factory
+     *
+     * @param $http
+     * @param endpoints
+     * @param toastr
+     * @returns {{getCategories: getCategories}}
+     * @constructor
+     */
+    function CategoriesFactory($http, endpoints, toastr) {
+        return {
+            getCategories: getCategories
+        };
+
+        /**
+         * Get all categories
+         *
+         * @returns {HttpPromise}
+         */
+        function getCategories() {
+            return $http.get(endpoints.BACK.GET_CATEGORIES)
+                .then(getCategoriesComplete)
+                .catch(getCategoriesFailed);
+
+            /**
+             * Success callback
+             *
+             * @param response
+             * @returns {Object}
+             */
+            function getCategoriesComplete(response) {
+                return response.data;
+            }
+
+            /**
+             * Failed callback
+             *
+             * @param response
+             */
+            function getCategoriesFailed(response) {
+                toastr.error('Ooops! Categories fetch failed');
+                console.log(response);
             }
         }
     }
@@ -526,6 +583,29 @@
                     console.log(response);
                     vm.cartContents = response;
                     updateCartTotals();
+                });
+        }
+    }
+})();
+(function () {
+    'use strict';
+
+    angular
+        .module('baroko.front')
+        .controller('CategoriesController', CategoriesController);
+
+    CategoriesController.$inject = ['CategoriesFactory', 'toastr'];
+    function CategoriesController(CategoriesFactory, toastr) {
+        var vm = this;
+
+        activate();
+
+        function activate() {
+            toastr.success('Categories Controller activated');
+            return CategoriesFactory.getCategories()
+                .then(function(response) {
+                    console.log(response);
+                    vm.categories = response.success;
                 });
         }
     }

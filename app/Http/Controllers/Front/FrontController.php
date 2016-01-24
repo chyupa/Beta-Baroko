@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 
+/**
+ * Class FrontController
+ * @package App\Http\Controllers\Front
+ */
 class FrontController extends Controller
 {
 
@@ -42,5 +46,12 @@ class FrontController extends Controller
      */
     public function getThankYou() {
         return view('front.thank-you');
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getCategories() {
+        return view('front.categories');
     }
 }

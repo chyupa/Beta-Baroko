@@ -15,6 +15,11 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li>
+          <a href="{{ route('front.get.categories') }}">
+            Categories
+          </a>
+        </li>
+        <li>
           <a href="{{ route('front.get.cart') }}">
             Cart @if($cart_items_number)<span class="badge">{{ $cart_items_number }}</span>@endif
           </a>

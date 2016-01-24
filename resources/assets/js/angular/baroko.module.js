@@ -16,7 +16,9 @@
                 REMOVE_CART_ITEM: 'api/removeCartItem',
                 UPDATE_CART_QUANTITY: 'api/updateCartQuantity',
 
-                PLACE_ORDER: 'api/placeOrder'
+                PLACE_ORDER: 'api/placeOrder',
+
+                GET_CATEGORIES: 'api/getCategories'
             },
             FRONT: {
                 THANK_YOU: 'thank-you'
