@@ -52,7 +52,7 @@ class Product extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function category() {
-        return $this->belongsTo('App\Baroko\Category\Model\Category');
+        return $this->belongsToMany('App\Baroko\Category\Model\Category', 'products_categories');
     }
 
     /**

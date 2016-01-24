@@ -27,7 +27,10 @@ class Category extends Model
         return $this->hasMany('App\Baroko\Subcategory\Model\Subcategory');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function products() {
-        return $this->hasManyThrough('App\Baroko\Product\Model\Product', 'product_category_subcategory');
+        return $this->belongsToMany('App\Baroko\Product\Model\Product', 'products_categories');
     }
 }

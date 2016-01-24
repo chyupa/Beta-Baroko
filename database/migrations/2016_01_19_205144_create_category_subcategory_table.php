@@ -13,10 +13,12 @@ class CreateCategorySubcategoryTable extends Migration
      */
     public function up()
     {
-        Schema::create('category_subcategory', function (Blueprint $table) {
+        Schema::create('categories_subcategories', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('category_id');
-            $table->integer('subcategory');
+            $table->integer('subcategory_id');
+
+            $table->timestamps();
         });
     }
 

@@ -48,9 +48,9 @@ $factory->define(App\Baroko\ProductOutlet\Model\ProductOutlet::class, function (
 $factory->define(App\Baroko\ProductPrices\Model\ProductPrices::class, function (Faker\Generator $faker) {
     return [
       'product_id' => $faker->unique()->numberBetween(1, 100),
-      'old_price' => $faker->randomFloat(2),
-      'price' => $faker->randomFloat(2),
-      'discount' => $faker->numberBetween(0, 10)
+      'old_price' => $faker->randomFloat(2, 0, 1000),
+      'price' => $faker->randomFloat(2, 0, 800),
+      'discount' => $faker->numberBetween(0, 30)
     ];
 });
 
@@ -64,3 +64,17 @@ $factory->define(App\Baroko\ProductSettings\Model\ProductSettings::class, functi
       'designer_edition' => $faker->boolean(5)
     ];
 });
+
+$factory->define(App\Baroko\Category\Model\Category::class, function (Faker\Generator $faker) {
+   return [
+       'name' => $faker->name
+   ];
+});
+
+$factory->define(App\Baroko\Subcategory\Model\Subcategory::class, function (Faker\Generator $faker) {
+   return [
+       'name' => $faker->name
+   ];
+});
+
+

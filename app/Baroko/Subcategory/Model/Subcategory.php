@@ -26,4 +26,11 @@ class Subcategory extends Model
     public function category() {
         return $this->belongsTo('App\Baroko\Category\Model\Category');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function products() {
+        return $this->belongsToMany('App\Baroko\Product\Model\Product', 'products_subcategories');
+    }
 }
