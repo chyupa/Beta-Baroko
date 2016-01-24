@@ -13,27 +13,27 @@ class OrderController extends Controller
     protected $orderRepo;
     protected $orderInfoRepo;
     protected $sessionCartRepo;
+    protected $notifications;
 
     public function __construct(OrderRepository $orderRepository,
                                 OrderInfoRepository $orderInfoRepository,
-                                SessionCartRepository $sessionCartRepository
+                                SessionCartRepository $sessionCartRepository,
+                                NotificationsController $notificationsController
     ) {
         $this->orderRepo = $orderRepository;
         $this->orderInfoRepo = $orderInfoRepository;
         $this->sessionCartRepo = $sessionCartRepository;
+        $this->notifications = $notificationsController;
     }
 
     public function placeOrder(OrderRequest $request) {
-//        \Log::debug($request->all());
-
         //get session id
         $sessionId = session()->getId();
 
         //get cart session
         $sessionCart = $this->sessionCartRepo->getCartBySessionId($sessionId);
         $cartTotals = $this->sessionCartRepo->calculateTotalBySessionId($sessionCart);
-//        \Log::debug($sessionCart->toArray());
-//        return;
+
         //add cart session in the orders table
         $cartData = [
             'session_id' => $sessionId,
@@ -48,6 +48,9 @@ class OrderController extends Controller
         $orderInfo = $this->orderInfoRepo->create($request->all());
         $order->info()->save($orderInfo);
 
+        $this->notifications->sendOrderEmailToCustomer($order, $cartTotals);
+        $this->notifications->sendOrderEmailToAdmin($order, $cartTotals);
+        
         //generate a new session id
         session()->regenerate();
 
