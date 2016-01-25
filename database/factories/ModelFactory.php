@@ -66,15 +66,17 @@ $factory->define(App\Baroko\ProductSettings\Model\ProductSettings::class, functi
 });
 
 $factory->define(App\Baroko\Category\Model\Category::class, function (Faker\Generator $faker) {
-   return [
-       'name' => $faker->name
-   ];
+    return [
+      'name' => $faker->name,
+      'slug' => $faker->slug(2)
+    ];
 });
 
 $factory->define(App\Baroko\Subcategory\Model\Subcategory::class, function (Faker\Generator $faker) {
-   return [
-       'name' => $faker->name
-   ];
+    return [
+      'name' => $faker->name,
+      'slug' => $faker->slug(2)
+    ];
 });
 
 
