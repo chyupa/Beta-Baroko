@@ -5,9 +5,9 @@
         .module('baroko.front')
         .controller('CategoryController', CategoryController);
 
-    CategoryController.$inject = ['CategoryFactory', 'toastr'];
+    CategoryController.$inject = ['CategoryFactory', '$location', 'toastr'];
 
-    function CategoryController(CategoryFactory, toastr) {
+    function CategoryController(CategoryFactory, $location, toastr) {
         var vm = this;
 
         activate();
@@ -16,7 +16,7 @@
             toastr.success('Category Controller activated');
             return CategoryFactory.getCategory(getSlugFromUrl())
                 .then(function(response) {
-                    vm.category = response;
+                    vm.category = response.success;
                 });
         }
 

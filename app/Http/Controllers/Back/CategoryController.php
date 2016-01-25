@@ -35,7 +35,14 @@ class CategoryController extends Controller
         return response()->json(['success' => $categories]);
     }
 
+    /**
+     * Get single category
+     *
+     * @param $categorySlug
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getCategory($categorySlug) {
+
         $category = $this->categoryRepo->getCategoryBySlug($categorySlug);
 
         return response()->json(['success' => $category]);

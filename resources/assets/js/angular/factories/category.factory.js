@@ -28,7 +28,7 @@
          * @returns {*}
          */
         function getCategory(categorySlug) {
-            return $http.get(endpoints.BACK.GET_CATEGORY, categorySlug)
+            return $http.get(endpoints.BACK.GET_CATEGORY + categorySlug)
                 .then(getCategorySuccess)
                 .catch(getCategoryFailed);
 

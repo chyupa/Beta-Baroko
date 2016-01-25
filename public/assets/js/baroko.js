@@ -8,21 +8,21 @@
         ])
         .constant('endpoints', {
             BACK: {
-                GET_PRODUCTS: 'api/getPublicProducts',
-                GET_PRODUCT: 'api/getProduct/',
+                GET_PRODUCTS: '/api/getPublicProducts',
+                GET_PRODUCT: '/api/getProduct/',
 
-                ADD_TO_CART: 'api/addToCart',
-                GET_CART_CONTENTS: 'api/getCartContents',
-                REMOVE_CART_ITEM: 'api/removeCartItem',
-                UPDATE_CART_QUANTITY: 'api/updateCartQuantity',
+                ADD_TO_CART: '/api/addToCart',
+                GET_CART_CONTENTS: '/api/getCartContents',
+                REMOVE_CART_ITEM: '/api/removeCartItem',
+                UPDATE_CART_QUANTITY: '/api/updateCartQuantity',
 
-                PLACE_ORDER: 'api/placeOrder',
+                PLACE_ORDER: '/api/placeOrder',
 
-                GET_CATEGORIES: 'api/getCategories',
-                GET_CATEGORY: 'api/getCategory'
+                GET_CATEGORIES: '/api/getCategories',
+                GET_CATEGORY: '/api/getCategory/'
             },
             FRONT: {
-                THANK_YOU: 'thank-you'
+                THANK_YOU: '/thank-you'
             }
         })
         .constant('extensions', {
@@ -328,7 +328,7 @@
          * @returns {*}
          */
         function getCategory(categorySlug) {
-            return $http.get(endpoints.BACK.GET_CATEGORY, categorySlug)
+            return $http.get(endpoints.BACK.GET_CATEGORY + categorySlug)
                 .then(getCategorySuccess)
                 .catch(getCategoryFailed);
 
@@ -674,9 +674,9 @@
         .module('baroko.front')
         .controller('CategoryController', CategoryController);
 
-    CategoryController.$inject = ['CategoryFactory', 'toastr'];
+    CategoryController.$inject = ['CategoryFactory', '$location', 'toastr'];
 
-    function CategoryController(CategoryFactory, toastr) {
+    function CategoryController(CategoryFactory, $location, toastr) {
         var vm = this;
 
         activate();
@@ -685,7 +685,7 @@
             toastr.success('Category Controller activated');
             return CategoryFactory.getCategory(getSlugFromUrl())
                 .then(function(response) {
-                    vm.category = response;
+                    vm.category = response.success;
                 });
         }
 
