@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-
+    //TODO: refactor categories and subcategories to use one factory instead of two. No need for two.
     angular
         .module('baroko.front', [
             'ngAnimate',
@@ -19,7 +19,10 @@
                 PLACE_ORDER: '/api/placeOrder',
 
                 GET_CATEGORIES: '/api/getCategories',
-                GET_CATEGORY: '/api/getCategory/'
+                GET_CATEGORY: '/api/getCategory/',
+
+                GET_SUBCATEGORIES: '/api/getSubcategories',
+                GET_SUBCATEGORY: '/api/getSubcategory'
             },
             FRONT: {
                 THANK_YOU: '/thank-you'

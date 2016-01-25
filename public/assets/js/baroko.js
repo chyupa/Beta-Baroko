@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-
+    //TODO: refactor categories and subcategories to use one factory instead of two. No need for two.
     angular
         .module('baroko.front', [
             'ngAnimate',
@@ -19,7 +19,10 @@
                 PLACE_ORDER: '/api/placeOrder',
 
                 GET_CATEGORIES: '/api/getCategories',
-                GET_CATEGORY: '/api/getCategory/'
+                GET_CATEGORY: '/api/getCategory/',
+
+                GET_SUBCATEGORIES: '/api/getSubcategories',
+                GET_SUBCATEGORY: '/api/getSubcategory'
             },
             FRONT: {
                 THANK_YOU: '/thank-you'
@@ -537,6 +540,61 @@
 
     angular
         .module('baroko.front')
+        .factory('SubcategoriesFactory', SubcategoriesFactory);
+
+    SubcategoriesFactory.$inject = ['$http', 'endpoints', 'toastr'];
+
+    /**
+     * Subcategories factory
+     *
+     * @param $http
+     * @param endpoints
+     * @param toastr
+     * @returns {{getSubcategories: getSubcategories}}
+     * @constructor
+     */
+    function SubcategoriesFactory($http, endpoints, toastr) {
+        return {
+            getSubcategories: getSubcategories
+        };
+
+        /**
+         * get all subcategories
+         *
+         * @returns {HttpPromise}
+         */
+        function getSubcategories() {
+            return $http.get(endpoints.BACK.GET_SUBCATEGORIES)
+                .then(getSubcategoriesComplete)
+                .catch(getSubcategoriesFailed);
+
+            /**
+             * Success callback
+             *
+             * @param response
+             * @returns {Object}
+             */
+            function getSubcategoriesComplete(response) {
+                return response.data;
+            }
+
+            /**
+             * Failed callback
+             *
+             * @param response
+             */
+            function getSubcategoriesFailed(response) {
+                toastr.error('Ooops! Could not retrieve subcategories');
+                console.error(response);
+            }
+        }
+    }
+})();
+(function () {
+    'use strict';
+
+    angular
+        .module('baroko.front')
         .controller('CartController', CartController)
 
     CartController.$inject = ['toastr', 'CartFactory', 'transportFeeFilter'];
@@ -880,6 +938,34 @@
          */
         function getSlugFromUrl() {
             return $location.absUrl().split('/').pop();
+        }
+    }
+})();
+(function () {
+    'use strict';
+
+    angular
+        .module('baroko.front')
+        .controller('SubcategoriesController', SubcategoriesController);
+
+    SubcategoriesController.$inject = ['SubcategoriesFactory', 'toastr'];
+
+    function SubcategoriesController(SubcategoriesFactory, toastr) {
+        var vm = this;
+
+        activate();
+
+        /**
+         * Constructor
+         *
+         * @returns {HttpPromise}
+         */
+        function activate() {
+            toastr.success('Subcategory Controller activated');
+            return SubcategoriesFactory.getSubcategories()
+                .then(function(response) {
+                    vm.subcategories = response.success;
+                })
         }
     }
 })();
