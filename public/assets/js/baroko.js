@@ -18,7 +18,8 @@
 
                 PLACE_ORDER: 'api/placeOrder',
 
-                GET_CATEGORIES: 'api/getCategories'
+                GET_CATEGORIES: 'api/getCategories',
+                GET_CATEGORY: 'api/getCategory'
             },
             FRONT: {
                 THANK_YOU: 'thank-you'
@@ -293,6 +294,62 @@
             function getCategoriesFailed(response) {
                 toastr.error('Ooops! Categories fetch failed');
                 console.log(response);
+            }
+        }
+    }
+})();
+(function () {
+    'use strict';
+
+    angular
+        .module('baroko.front')
+        .factory('CategoryFactory', CategoryFactory);
+
+    CategoryFactory.$inject = ['$http', 'endpoints', 'toastr'];
+
+    /**
+     * CategoryFactory
+     *
+     * @param $http
+     * @param endpoints
+     * @param toastr
+     * @returns {{getCategory: getCategory}}
+     * @constructor
+     */
+    function CategoryFactory ($http, endpoints, toastr) {
+        return {
+            getCategory: getCategory
+        };
+
+        /**
+         * get category by slug
+         *
+         * @param categorySlug
+         * @returns {*}
+         */
+        function getCategory(categorySlug) {
+            return $http.get(endpoints.BACK.GET_CATEGORY, categorySlug)
+                .then(getCategorySuccess)
+                .catch(getCategoryFailed);
+
+            /**
+             * Success callback
+             *
+             * @param response
+             * @returns {*}
+             */
+            function getCategorySuccess(response) {
+                return response.data;
+            }
+
+            /**
+             * Failed callback
+             *
+             * @param response
+             */
+            function getCategoryFailed(response) {
+                toastr.error('Ooops! Did not find the category');
+                console.error(response);
             }
         }
     }
@@ -607,6 +664,39 @@
                     console.log(response);
                     vm.categories = response.success;
                 });
+        }
+    }
+})();
+(function () {
+    'use strict';
+
+    angular
+        .module('baroko.front')
+        .controller('CategoryController', CategoryController);
+
+    CategoryController.$inject = ['CategoryFactory', 'toastr'];
+
+    function CategoryController(CategoryFactory, toastr) {
+        var vm = this;
+
+        activate();
+
+        function activate() {
+            toastr.success('Category Controller activated');
+            return CategoryFactory.getCategory(getSlugFromUrl())
+                .then(function(response) {
+                    vm.category = response;
+                });
+        }
+
+
+        /**
+         * helper function for getting the slug
+         *
+         * @returns {string}
+         */
+        function getSlugFromUrl() {
+            return $location.absUrl().split('/').pop();
         }
     }
 })();

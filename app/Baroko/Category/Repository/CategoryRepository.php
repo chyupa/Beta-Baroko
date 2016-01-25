@@ -23,4 +23,18 @@ class CategoryRepository extends BarokoRepository
     public function __construct(Category $category) {
         $this->model = $category;
     }
+
+    /**
+     * Get category by slug
+     *
+     * @param $categorySlug
+     * @return mixed
+     */
+    public function getCategoryBySlug($categorySlug) {
+        return $this->model
+          ->with('products')
+          ->with('products.prices')
+          ->where('slug', $categorySlug)
+          ->first();
+    }
 }

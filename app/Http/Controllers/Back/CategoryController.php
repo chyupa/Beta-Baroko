@@ -34,4 +34,10 @@ class CategoryController extends Controller
 
         return response()->json(['success' => $categories]);
     }
+
+    public function getCategory($categorySlug) {
+        $category = $this->categoryRepo->getCategoryBySlug($categorySlug);
+
+        return response()->json(['success' => $category]);
+    }
 }

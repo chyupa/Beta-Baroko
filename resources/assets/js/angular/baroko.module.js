@@ -18,7 +18,8 @@
 
                 PLACE_ORDER: 'api/placeOrder',
 
-                GET_CATEGORIES: 'api/getCategories'
+                GET_CATEGORIES: 'api/getCategories',
+                GET_CATEGORY: 'api/getCategory'
             },
             FRONT: {
                 THANK_YOU: 'thank-you'

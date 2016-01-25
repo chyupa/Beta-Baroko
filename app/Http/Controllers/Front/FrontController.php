@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Baroko\Category\Repository\CategoryRepository;
 use App\Http\Controllers\Controller;
 
 /**
@@ -10,6 +11,11 @@ use App\Http\Controllers\Controller;
  */
 class FrontController extends Controller
 {
+    protected $categoryRepo;
+
+    public function __construct(CategoryRepository $categoryRepository) {
+        $this->categoryRepo = $categoryRepository;
+    }
 
     /**
      * Get Home Page
@@ -53,5 +59,20 @@ class FrontController extends Controller
      */
     public function getCategories() {
         return view('front.categories');
+    }
+
+    /**
+     * Single category page
+     *
+     * @param $categorySlug
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getCategory($categorySlug) {
+        $category = $this->categoryRepo->getCategoryBySlug($categorySlug);
+        if (!$category) {
+            abort(404);
+        }
+
+        return view('front.category');
     }
 }
