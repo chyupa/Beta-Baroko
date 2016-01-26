@@ -19,8 +19,11 @@ class Subcategory extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'slug'];
 
+    /**
+     * @var array
+     */
     protected $appends = ['productsCount'];
 
     /**

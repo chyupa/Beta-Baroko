@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Baroko\Category\Repository\CategoryRepository;
+use App\Baroko\Subcategory\Repository\SubcategoryRepository;
 use App\Http\Controllers\Controller;
 
 /**
@@ -11,10 +12,24 @@ use App\Http\Controllers\Controller;
  */
 class FrontController extends Controller
 {
+    /**
+     * @var CategoryRepository
+     */
     protected $categoryRepo;
 
-    public function __construct(CategoryRepository $categoryRepository) {
+    /**
+     * @var SubcategoryRepository
+     */
+    protected $subcategoryRepo;
+
+    /**
+     * FrontController constructor.
+     * @param CategoryRepository $categoryRepository
+     * @param SubcategoryRepository $subcategoryRepository
+     */
+    public function __construct(CategoryRepository $categoryRepository, SubcategoryRepository $subcategoryRepository) {
         $this->categoryRepo = $categoryRepository;
+        $this->subcategoryRepo = $subcategoryRepository;
     }
 
     /**
@@ -74,5 +89,20 @@ class FrontController extends Controller
         }
 
         return view('front.category');
+    }
+
+    /**
+     * Single subcategory page
+     *
+     * @param $subcategorySlug
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getSubcategory($subcategorySlug) {
+        $subcategory = $this->subcategoryRepo->getSubcategoryBySlug($subcategorySlug);
+        if (!$subcategory) {
+            abort(404);
+        }
+
+        return view('front.subcategory');
     }
 }

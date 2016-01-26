@@ -43,6 +43,8 @@ Route::group(['middleware' => ['web']], function () {
 
         Route::get('category/{categorySlug}', ['uses' => 'FrontController@getCategory', 'as' => 'front.get.category']);
 
+        Route::get('subcategory/{subcategorySlug}', ['uses' => 'FrontController@getSubcategory', 'as' => 'front.get.subcategory']);
+
         // Keep in mind that this needs to be the last route in this group otherwise the other ones will return 404
         Route::get('{url}', ['uses' => 'ProductController@getSingleProduct', 'as' => 'front.get.singleProduct']);
 
@@ -71,4 +73,6 @@ Route::group([
     Route::get('getCategories', ['uses' => 'CategoryController@getCategories', 'as' => 'back.get.categories']);
 
     Route::get('getCategory/{categorySlug}', ['uses' => 'CategoryController@getCategory', 'as' => 'back.get.category']);
+
+    Route::get('getSubcategoryProducts/{subcategorySlug}', ['uses' => 'SubcategoryController@getSubcategoryProducts', 'as' => 'back.get.category']);
 });

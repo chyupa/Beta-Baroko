@@ -22,7 +22,8 @@
                 GET_CATEGORY: '/api/getCategory/',
 
                 GET_SUBCATEGORIES: '/api/getSubcategories',
-                GET_SUBCATEGORY: '/api/getSubcategory'
+                GET_SUBCATEGORY: '/api/getSubcategory',
+                GET_SUBCATEGORY_PRODUCTS: '/api/getSubcategoryProducts/'
             },
             FRONT: {
                 THANK_YOU: '/thank-you'
@@ -532,7 +533,8 @@
      */
     function SubcategoryFactory($http, endpoints, toastr) {
         return {
-            getSubcategories: getSubcategories
+            getSubcategories: getSubcategories,
+            getProducts: getProducts
         };
 
         /**
@@ -562,6 +564,38 @@
              */
             function getSubcategoriesFailed(response) {
                 toastr.error('Ooops! Could not retrieve subcategories');
+                console.error(response);
+            }
+        }
+
+        /**
+         * Get all products belonging to a subcategory
+         *
+         * @param subcategorySlug
+         * @returns {HttpPromise}
+         */
+        function getProducts(subcategorySlug) {
+            return $http.get(endpoints.BACK.GET_SUBCATEGORY_PRODUCTS + subcategorySlug)
+                .then(getProductsComplete)
+                .catch(getProductsFailed);
+
+            /**
+             * Success callback
+             *
+             * @param response
+             * @returns {Object}
+             */
+            function getProductsComplete(response) {
+                return response.data;
+            }
+
+            /**
+             * Failed callback
+             *
+             * @param response
+             */
+            function getProductsFailed(response) {
+                toastr.error('Ooops! Could not retrieve this subcategory\'s products');
                 console.error(response);
             }
         }
@@ -943,6 +977,45 @@
                 .then(function(response) {
                     vm.subcategories = response.success;
                 })
+        }
+    }
+})();
+(function () {
+    'use strict';
+
+    angular
+        .module('baroko.front')
+        .controller('SubcategoryController', SubcategoryController);
+
+    SubcategoryController.$inject = ['SubcategoryFactory', '$location', 'toastr'];
+
+    function SubcategoryController(SubcategoryFactory, $location, toastr) {
+        var vm = this;
+
+        activate();
+
+        /**
+         * Constructor
+         *
+         * @returns {HttpPromise}
+         */
+        function activate() {
+            toastr.success('Single Subcategory controller activated');
+            return SubcategoryFactory.getProducts(getSlugFromUrl())
+                .then(function(response) {
+                    console.log(response);
+                   vm.subcategory = response.success;
+                });
+        }
+
+
+        /**
+         * helper function for getting the slug
+         *
+         * @returns {string}
+         */
+        function getSlugFromUrl() {
+            return $location.absUrl().split('/').pop();
         }
     }
 })();

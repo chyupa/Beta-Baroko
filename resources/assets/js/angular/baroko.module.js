@@ -22,7 +22,8 @@
                 GET_CATEGORY: '/api/getCategory/',
 
                 GET_SUBCATEGORIES: '/api/getSubcategories',
-                GET_SUBCATEGORY: '/api/getSubcategory'
+                GET_SUBCATEGORY: '/api/getSubcategory',
+                GET_SUBCATEGORY_PRODUCTS: '/api/getSubcategoryProducts/'
             },
             FRONT: {
                 THANK_YOU: '/thank-you'
