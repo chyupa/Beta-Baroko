@@ -3,6 +3,7 @@
 namespace App\Baroko\Subcategory\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class Subcategory
@@ -20,6 +21,8 @@ class Subcategory extends Model
      */
     protected $fillable = ['name'];
 
+    protected $appends = ['productsCount'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -32,5 +35,15 @@ class Subcategory extends Model
      */
     public function products() {
         return $this->belongsToMany('App\Baroko\Product\Model\Product', 'products_subcategories');
+    }
+
+    /**
+     * Accessor for the productsCount relation
+     * Return the number of products for each subcategory
+     *
+     * @return int
+     */
+    public function getProductsCountAttribute() {
+        return $this->products()->count();
     }
 }

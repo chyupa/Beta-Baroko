@@ -24,7 +24,7 @@ class Category extends Model
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function subcategories() {
-        return $this->hasMany('App\Baroko\Subcategory\Model\Subcategory');
+        return $this->belongsToMany('App\Baroko\Subcategory\Model\Subcategory', 'categories_subcategories');
     }
 
     /**
