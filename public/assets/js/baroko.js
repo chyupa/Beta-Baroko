@@ -251,22 +251,23 @@
 
     angular
         .module('baroko.front')
-        .factory('CategoriesFactory', CategoriesFactory);
+        .factory('CategoryFactory', CategoryFactory);
 
-    CategoriesFactory.$inject = ['$http', 'endpoints', 'toastr'];
+    CategoryFactory.$inject = ['$http', 'endpoints', 'toastr'];
 
     /**
-     * Categories factory
+     * Category factory
      *
      * @param $http
      * @param endpoints
      * @param toastr
-     * @returns {{getCategories: getCategories}}
+     * @returns {{getCategories: getCategories, getCategory: getCategory}}
      * @constructor
      */
-    function CategoriesFactory($http, endpoints, toastr) {
+    function CategoryFactory ($http, endpoints, toastr) {
         return {
-            getCategories: getCategories
+            getCategories: getCategories,
+            getCategory: getCategory
         };
 
         /**
@@ -299,36 +300,12 @@
                 console.log(response);
             }
         }
-    }
-})();
-(function () {
-    'use strict';
-
-    angular
-        .module('baroko.front')
-        .factory('CategoryFactory', CategoryFactory);
-
-    CategoryFactory.$inject = ['$http', 'endpoints', 'toastr'];
-
-    /**
-     * CategoryFactory
-     *
-     * @param $http
-     * @param endpoints
-     * @param toastr
-     * @returns {{getCategory: getCategory}}
-     * @constructor
-     */
-    function CategoryFactory ($http, endpoints, toastr) {
-        return {
-            getCategory: getCategory
-        };
 
         /**
          * get category by slug
          *
          * @param categorySlug
-         * @returns {*}
+         * @returns {HttpPromise}
          */
         function getCategory(categorySlug) {
             return $http.get(endpoints.BACK.GET_CATEGORY + categorySlug)
@@ -540,9 +517,9 @@
 
     angular
         .module('baroko.front')
-        .factory('SubcategoriesFactory', SubcategoriesFactory);
+        .factory('SubcategoryFactory', SubcategoryFactory);
 
-    SubcategoriesFactory.$inject = ['$http', 'endpoints', 'toastr'];
+    SubcategoryFactory.$inject = ['$http', 'endpoints', 'toastr'];
 
     /**
      * Subcategories factory
@@ -553,7 +530,7 @@
      * @returns {{getSubcategories: getSubcategories}}
      * @constructor
      */
-    function SubcategoriesFactory($http, endpoints, toastr) {
+    function SubcategoryFactory($http, endpoints, toastr) {
         return {
             getSubcategories: getSubcategories
         };
@@ -709,15 +686,15 @@
         .module('baroko.front')
         .controller('CategoriesController', CategoriesController);
 
-    CategoriesController.$inject = ['CategoriesFactory', 'toastr'];
-    function CategoriesController(CategoriesFactory, toastr) {
+    CategoriesController.$inject = ['CategoryFactory', 'toastr'];
+    function CategoriesController(CategoryFactory, toastr) {
         var vm = this;
 
         activate();
 
         function activate() {
             toastr.success('Categories Controller activated');
-            return CategoriesFactory.getCategories()
+            return CategoryFactory.getCategories()
                 .then(function(response) {
                     console.log(response);
                     vm.categories = response.success;
@@ -948,9 +925,9 @@
         .module('baroko.front')
         .controller('SubcategoriesController', SubcategoriesController);
 
-    SubcategoriesController.$inject = ['SubcategoriesFactory', 'toastr'];
+    SubcategoriesController.$inject = ['SubcategoryFactory', 'toastr'];
 
-    function SubcategoriesController(SubcategoriesFactory, toastr) {
+    function SubcategoriesController(SubcategoryFactory, toastr) {
         var vm = this;
 
         activate();
@@ -962,7 +939,7 @@
          */
         function activate() {
             toastr.success('Subcategory Controller activated');
-            return SubcategoriesFactory.getSubcategories()
+            return SubcategoryFactory.getSubcategories()
                 .then(function(response) {
                     vm.subcategories = response.success;
                 })

@@ -8,24 +8,56 @@
     CategoryFactory.$inject = ['$http', 'endpoints', 'toastr'];
 
     /**
-     * CategoryFactory
+     * Category factory
      *
      * @param $http
      * @param endpoints
      * @param toastr
-     * @returns {{getCategory: getCategory}}
+     * @returns {{getCategories: getCategories, getCategory: getCategory}}
      * @constructor
      */
     function CategoryFactory ($http, endpoints, toastr) {
         return {
+            getCategories: getCategories,
             getCategory: getCategory
         };
+
+        /**
+         * Get all categories
+         *
+         * @returns {HttpPromise}
+         */
+        function getCategories() {
+            return $http.get(endpoints.BACK.GET_CATEGORIES)
+                .then(getCategoriesComplete)
+                .catch(getCategoriesFailed);
+
+            /**
+             * Success callback
+             *
+             * @param response
+             * @returns {Object}
+             */
+            function getCategoriesComplete(response) {
+                return response.data;
+            }
+
+            /**
+             * Failed callback
+             *
+             * @param response
+             */
+            function getCategoriesFailed(response) {
+                toastr.error('Ooops! Categories fetch failed');
+                console.log(response);
+            }
+        }
 
         /**
          * get category by slug
          *
          * @param categorySlug
-         * @returns {*}
+         * @returns {HttpPromise}
          */
         function getCategory(categorySlug) {
             return $http.get(endpoints.BACK.GET_CATEGORY + categorySlug)

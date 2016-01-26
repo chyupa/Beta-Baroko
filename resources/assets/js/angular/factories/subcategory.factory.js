@@ -3,9 +3,9 @@
 
     angular
         .module('baroko.front')
-        .factory('SubcategoriesFactory', SubcategoriesFactory);
+        .factory('SubcategoryFactory', SubcategoryFactory);
 
-    SubcategoriesFactory.$inject = ['$http', 'endpoints', 'toastr'];
+    SubcategoryFactory.$inject = ['$http', 'endpoints', 'toastr'];
 
     /**
      * Subcategories factory
@@ -16,7 +16,7 @@
      * @returns {{getSubcategories: getSubcategories}}
      * @constructor
      */
-    function SubcategoriesFactory($http, endpoints, toastr) {
+    function SubcategoryFactory($http, endpoints, toastr) {
         return {
             getSubcategories: getSubcategories
         };

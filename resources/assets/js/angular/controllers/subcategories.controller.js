@@ -5,9 +5,9 @@
         .module('baroko.front')
         .controller('SubcategoriesController', SubcategoriesController);
 
-    SubcategoriesController.$inject = ['SubcategoriesFactory', 'toastr'];
+    SubcategoriesController.$inject = ['SubcategoryFactory', 'toastr'];
 
-    function SubcategoriesController(SubcategoriesFactory, toastr) {
+    function SubcategoriesController(SubcategoryFactory, toastr) {
         var vm = this;
 
         activate();
@@ -19,7 +19,7 @@
          */
         function activate() {
             toastr.success('Subcategory Controller activated');
-            return SubcategoriesFactory.getSubcategories()
+            return SubcategoryFactory.getSubcategories()
                 .then(function(response) {
                     vm.subcategories = response.success;
                 })
