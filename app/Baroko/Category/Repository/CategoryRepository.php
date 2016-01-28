@@ -55,7 +55,7 @@ class CategoryRepository extends BarokoRepository
      */
     public function getSubcategoryBySlug($subcategorySlug) {
         return $this->model
-          ->with('products')
+          ->with('products.prices')
           ->where('slug', $subcategorySlug)
           ->first();
     }
