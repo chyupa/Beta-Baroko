@@ -13,10 +13,18 @@ class ComposerServiceProvider extends ServiceProvider
     /**
      * Boot the view composer
      */
-    public function boot() {
+    public function boot()
+    {
         //class based composer
         view()->composer(
-          'front.partials.header-menu', 'App\Http\ViewComposers\CartComposer'
+          [
+            'front.partials.header-menu',
+            'front.partials.left-cart',
+          ],
+          'App\Http\ViewComposers\CartComposer'
+        );
+        view()->composer(
+          'front.partials.left-menu', 'App\Http\ViewComposers\CategoryComposer'
         );
     }
 

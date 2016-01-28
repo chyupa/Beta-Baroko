@@ -59,4 +59,16 @@ class CategoryRepository extends BarokoRepository
           ->where('slug', $subcategorySlug)
           ->first();
     }
+
+    /**
+     * Get all categories with its subcategories
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function getCategoriesWithSubcategories() {
+        return $this->model
+          ->parent()
+          ->with('subcategories')
+          ->get();
+    }
 }
