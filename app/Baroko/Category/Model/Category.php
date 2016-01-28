@@ -13,26 +13,34 @@ class Category extends Model
     /**
      * @var string
      */
-    protected $table = 'categories';
+    protected $table = 'categories_subcategories';
 
     /**
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'parent_id'];
 
     /**
      * Subcategories Relationship
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function subcategories() {
-        return $this->belongsToMany('App\Baroko\Subcategory\Model\Subcategory', 'categories_subcategories');
+        return $this->hasMany('App\Baroko\Category\Model\Category', 'parent_id');
     }
 
     /**
      * Products Relationship
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function category() {
+        return $this->belongsTo('App\Baroko\Category\Model\Category', 'parent_id');
+    }
+
     public function products() {
-        return $this->belongsToMany('App\Baroko\Product\Model\Product', 'products_categories');
+        return $this->hasMany('App\Baroko\Product\Model\Product');
+    }
+    
+    public function scopeParent($query) {
+        return $query->where('parent_id', 0);
     }
 }

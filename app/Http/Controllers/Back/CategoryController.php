@@ -30,7 +30,7 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function getCategories() {
-        $categories = $this->categoryRepo->all();
+        $categories = $this->categoryRepo->getAllCategories();
 
         return response()->json(['success' => $categories]);
     }
@@ -42,9 +42,20 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function getCategory($categorySlug) {
-
         $category = $this->categoryRepo->getCategoryBySlug($categorySlug);
 
         return response()->json(['success' => $category]);
+    }
+
+    /**
+     * Get all products for this category
+     *
+     * @param $subcategorySlug
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getSubcategoryProducts($subcategorySlug) {
+        $subcategory = $this->categoryRepo->getSubcategoryBySlug($subcategorySlug);
+
+        return response()->json(['success' => $subcategory]);
     }
 }

@@ -18,18 +18,12 @@ class FrontController extends Controller
     protected $categoryRepo;
 
     /**
-     * @var SubcategoryRepository
-     */
-    protected $subcategoryRepo;
-
-    /**
      * FrontController constructor.
      * @param CategoryRepository $categoryRepository
      * @param SubcategoryRepository $subcategoryRepository
      */
-    public function __construct(CategoryRepository $categoryRepository, SubcategoryRepository $subcategoryRepository) {
+    public function __construct(CategoryRepository $categoryRepository) {
         $this->categoryRepo = $categoryRepository;
-        $this->subcategoryRepo = $subcategoryRepository;
     }
 
     /**
@@ -93,12 +87,12 @@ class FrontController extends Controller
 
     /**
      * Single subcategory page
-     *
+     * TODO: change this because I deleted the subcategories
      * @param $subcategorySlug
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getSubcategory($subcategorySlug) {
-        $subcategory = $this->subcategoryRepo->getSubcategoryBySlug($subcategorySlug);
+        $subcategory = $this->categoryRepo->getSubcategoryBySlug($subcategorySlug);
         if (!$subcategory) {
             abort(404);
         }

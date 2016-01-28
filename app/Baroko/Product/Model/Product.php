@@ -18,7 +18,7 @@ class Product extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'url', 'type', 'public'];
+    protected $fillable = ['category_id', 'name', 'url', 'type', 'public'];
 
     /**
      * Info Relationship
@@ -57,15 +57,7 @@ class Product extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function category() {
-        return $this->belongsToMany('App\Baroko\Category\Model\Category', 'products_categories');
-    }
-
-    /**
-     * Subcategory Relationship
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function subcategory() {
-        return $this->belongsTo('App\Baroko\Subcategory\Model\Subcategory');
+        return $this->belongsTo('App\Baroko\Category\Model\Category');
     }
 
 }

@@ -25,7 +25,7 @@ class CategoryRepository extends BarokoRepository
     }
 
     /**
-     * Get category by slug
+     * Get category with its subcategories by slug
      *
      * @param $categorySlug
      * @return mixed
@@ -34,6 +34,29 @@ class CategoryRepository extends BarokoRepository
         return $this->model
           ->with('subcategories')
           ->where('slug', $categorySlug)
+          ->first();
+    }
+
+    /**
+     * Get all categories with parent_id - 0
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function getAllCategories() {
+        return $this->model
+          ->parent()
+          ->get();
+    }
+
+    /**
+     * Get subcategory with its products
+     * @param $subcategorySlug
+     * @return \Illuminate\Database\Eloquent\Model|null|static
+     */
+    public function getSubcategoryBySlug($subcategorySlug) {
+        return $this->model
+          ->with('products')
+          ->where('slug', $subcategorySlug)
           ->first();
     }
 }
