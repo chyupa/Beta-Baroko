@@ -17,6 +17,7 @@ class ProductOutlet extends Model
     protected $fillable = ['product_id', 'outlet_stock'];
 
     /**
+     * Product Relationship
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function product()

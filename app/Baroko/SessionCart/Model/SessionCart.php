@@ -26,6 +26,7 @@ class SessionCart extends Model
     protected $hidden = ['id', 'session_id', 'created_at', 'updated_at'];
 
     /**
+     * Product Relationship
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function product() {

@@ -21,6 +21,7 @@ class Category extends Model
     protected $fillable = ['name'];
 
     /**
+     * Subcategories Relationship
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function subcategories() {
@@ -28,6 +29,7 @@ class Category extends Model
     }
 
     /**
+     * Products Relationship
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function products() {

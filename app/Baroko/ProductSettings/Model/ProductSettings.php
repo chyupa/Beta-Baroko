@@ -17,6 +17,7 @@ class ProductSettings extends Model
     protected $fillable = ['product_id', 'featured', 'promotion', 'stock', 'outlet', 'designer_edition'];
 
     /**
+     * Product Relationship
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function product()

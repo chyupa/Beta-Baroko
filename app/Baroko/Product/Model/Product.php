@@ -21,6 +21,7 @@ class Product extends Model
     protected $fillable = ['name', 'url', 'type', 'public'];
 
     /**
+     * Info Relationship
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function info() {
@@ -28,6 +29,7 @@ class Product extends Model
     }
 
     /**
+     * Settings Relationship
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function settings() {
@@ -35,6 +37,7 @@ class Product extends Model
     }
 
     /**
+     * Prices Relationship
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function prices() {
@@ -42,6 +45,7 @@ class Product extends Model
     }
 
     /**
+     * Outlet Relationship
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function outlet() {
@@ -49,6 +53,7 @@ class Product extends Model
     }
 
     /**
+     * Category Relationship
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function category() {
@@ -56,6 +61,7 @@ class Product extends Model
     }
 
     /**
+     * Subcategory Relationship
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function subcategory() {

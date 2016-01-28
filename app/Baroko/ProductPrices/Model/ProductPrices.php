@@ -17,6 +17,7 @@ class ProductPrices extends Model
     protected $fillable = ['product_id', 'old_price', 'price', 'discount'];
 
     /**
+     * Product Relationship
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function product()

@@ -17,6 +17,7 @@ class ProductInfo extends Model
     protected $fillable = ['product_id', 'description', 'code', 'extension'];
 
     /**
+     * Product Relationship
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function product()

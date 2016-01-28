@@ -27,6 +27,7 @@ class Subcategory extends Model
     protected $appends = ['productsCount'];
 
     /**
+     * Category Relationship
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function category() {
@@ -34,6 +35,7 @@ class Subcategory extends Model
     }
 
     /**
+     * Product Relationship
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function products() {

@@ -22,7 +22,8 @@ class OrderInfo extends Model
     protected $fillable = ['order_id', 'email', 'name', 'number', 'scara', 'apartment', 'city', 'country', 'message', 'phone', 'street', 'bloc', 'floor', 'interphone', 'county'];
 
     /**
-     * @return mixed
+     * Order Relationship
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function order() {
         return $this->belongsTo('App\Baroko\Order\Model\Order');

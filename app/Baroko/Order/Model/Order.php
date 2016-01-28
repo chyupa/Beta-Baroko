@@ -21,6 +21,7 @@ class Order extends Model
     protected $fillable = ['session_id', 'total', 'transport_fee', 'discount'];
 
     /**
+     * Information Relationship
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function info() {
