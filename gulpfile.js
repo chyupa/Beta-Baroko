@@ -34,7 +34,8 @@ elixir(function(mix) {
         'angular/baroko.module.js',
         'angular/filters/*.js',
         'angular/factories/*.js',
-        'angular/controllers/*.js'
+        'angular/controllers/*.js',
+        'angular/directives/*.js'
         ],
     assetsDir + 'js/baroko.js'
     );

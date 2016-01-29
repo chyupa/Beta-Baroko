@@ -7,13 +7,16 @@
 </head>
 <body ng-app="baroko.front">
 <div class="container">
-    <header>
-        @include('front.partials.header-menu')
-    </header>
+    <div class="row">
+        <header>
+            @include('front.partials.header-menu')
+        </header>
+    </div>
     <div class="row">
         <div class="col-xs-3">
             <div class="row">
-                @include('front.partials.left-cart')
+                {{--@include('front.partials.left-cart')--}}
+                <baroko-cart></baroko-cart>
             </div>
             <div class="row">
                 @include('front.partials.left-menu')
