@@ -1031,8 +1031,8 @@
             restrict: 'EA',
             templateUrl: '/assets/views/cart-directive.html',
             scope: false,
-            controller: 'CartController as vm',
-            //bindToController: true
+            controller: 'CartController',
+            controllerAs: 'vm'
         };
 
         return directive;

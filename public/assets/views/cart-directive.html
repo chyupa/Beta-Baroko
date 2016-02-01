@@ -3,11 +3,10 @@
         <h3 class="panel-title text-center">Cart</h3>
     </div>
     <div class="panel-body">
-        {{ CartController }}
         <div ng-if="vm.cartContents.length > 0">
-            <p>In cart: {{ vm.cartContents.length }} product(s)</p>
-            <p>Transport Fee: {{ vm.transportFee | currency }}</p>
-            <p>Total: {{ vm.total | currency }}</p>
+            <p>In cart: <span ng-bind="vm.cartContents.length"></span> product(s)</p>
+            <p>Transport Fee: <span ng-bind="vm.transportFee | currency"></span></p>
+            <p>Total: <span ng-bind="vm.total | currency"></span></p>
             <a class="btn btn-info" href="{{ route('front.get.cart') }}">See cart</a>
         </div>
         <div ng-if="vm.cartContents.length == 0">
