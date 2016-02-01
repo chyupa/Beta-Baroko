@@ -23,7 +23,9 @@
 
                 GET_SUBCATEGORIES: '/api/getSubcategories',
                 GET_SUBCATEGORY: '/api/getSubcategory',
-                GET_SUBCATEGORY_PRODUCTS: '/api/getSubcategoryProducts/'
+                GET_SUBCATEGORY_PRODUCTS: '/api/getSubcategoryProducts/',
+
+                SAVE_CONTACT: '/api/saveContact/'
             },
             FRONT: {
                 THANK_YOU: '/thank-you'
@@ -388,6 +390,62 @@
             function placeOrderFailed(response) {
                 console.log(response);
                 toastr.error('Ooops! Could not place the order');
+            }
+        }
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('baroko.front')
+        .factory('ContactFactory', ContactFactory);
+
+    ContactFactory.$inject = ['$http', 'endpoints', 'toastr'];
+
+    /**
+     * Save contact info to DB
+     *
+     * @param $http
+     * @param endpoints
+     * @param toastr
+     * @returns {{saveContact: saveContact}}
+     * @constructor
+     */
+    function ContactFactory($http, endpoints, toastr) {
+        return {
+            saveContact: saveContact
+        };
+
+        /**
+         * Call the BACK endpoint to save the data
+         *
+         * @param data
+         * @returns {HttpPromise}
+         */
+        function saveContact(data) {
+            return $http.post(endpoints.BACK.SAVE_CONTACT, data)
+                .then(saveContactCompleted)
+                .catch(saveContactFailed);
+
+            /**
+             * Success callback
+             *
+             * @param response
+             * @returns {Object}
+             */
+            function saveContactCompleted(response) {
+                return response.data;
+            }
+
+            /**
+             * Error callback
+             *
+             * @param response
+             */
+            function saveContactFailed(response) {
+                toastr.error('Ooops! Could not send your message.');
+                console.log(response);
             }
         }
     }
@@ -806,6 +864,32 @@
         }
 
 
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('baroko.front')
+        .controller('ContactController', ContactController);
+
+    ContactController.$inject = ['ContactFactory', 'toastr'];
+
+    function ContactController(ContactFactory, toastr) {
+        var vm = this;
+        vm.submitForm = submitForm;
+        vm.formData = {};
+
+        activate();
+
+
+        function submitForm() {
+            
+        }
+
+        function activate() {
+            toastr.success('Contact Controller activated');
+        }
     }
 })();
 (function () {

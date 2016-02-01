@@ -24,6 +24,11 @@
             Cart @if($cart_items_number)<span class="badge">{{ $cart_items_number }}</span>@endif
           </a>
         </li>
+        <li>
+          <a href="{{ route('front.get.contact') }}">
+            Contact
+          </a>
+        </li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

@@ -99,4 +99,13 @@ class FrontController extends Controller
 
         return view('front.subcategory');
     }
+
+    /**
+     * Display contact view
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getContact() {
+        return view('front.contact');
+    }
 }
