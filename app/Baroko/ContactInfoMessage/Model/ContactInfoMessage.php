@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Baroko\ContactInfoMessages\Model;
+namespace App\Baroko\ContactInfoMessage\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class ContactInfoMessages
- * @package App\Baroko\ContactInfoMessages\Model
+ * @package App\Baroko\ContactInfoMessage\Model
  */
-class ContactInfoMessages extends Model
+class ContactInfoMessage extends Model
 {
     /**
      * @var string

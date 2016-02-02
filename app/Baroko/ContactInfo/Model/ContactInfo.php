@@ -21,4 +21,12 @@ class ContactInfo extends Model
      * @var array
      */
     protected $fillable = ['uuid', 'name', 'email', 'phone'];
+
+    /**
+     * ContactInfoMessage relationship
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function message() {
+        return $this->hasMany('App\Baroko\ContactInfoMessage\Model\ContactInfoMessage');
+    }
 }

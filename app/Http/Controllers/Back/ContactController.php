@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Baroko\Http\Controllers\Back;
+namespace App\Http\Controllers\Back;
 
 use App\Baroko\ContactInfo\Repository\ContactInfoRepository;
-use App\Baroko\ContactInfoMessages\Repository\ContactInfoMessagesRepository;
+use App\Baroko\ContactInfoMessage\Repository\ContactInfoMessageRepository;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Request;
+use Illuminate\Http\Request;
 
 /**
  * Class ContactController
@@ -18,21 +18,29 @@ class ContactController extends Controller
      */
     protected $contactInfoRepo;
     /**
-     * @var ContactInfoMessagesRepository
+     * @var ContactInfoMessageRepository
      */
-    protected $contactInfoMessagesRepo;
+    protected $contactInfoMessageRepo;
+
+    /**
+     * @var NotificationsController
+     */
+    protected $notifications;
 
     /**
      * ContactController constructor.
      * @param ContactInfoRepository $contactInfoRepository
-     * @param ContactInfoMessagesRepository $contactInfoMessagesRepository
+     * @param ContactInfoMessageRepository $contactInfoMessagesRepository
+     * @param NotificationsController $notificationsController
      */
     public function __construct(
       ContactInfoRepository $contactInfoRepository,
-      ContactInfoMessagesRepository $contactInfoMessagesRepository
+      ContactInfoMessageRepository $contactInfoMessagesRepository,
+      NotificationsController $notificationsController
     ) {
         $this->contactInfoRepo = $contactInfoRepository;
-        $this->contactInfoMessagesRepo = $contactInfoMessagesRepository;
+        $this->contactInfoMessageRepo = $contactInfoMessagesRepository;
+        $this->notifications = $notificationsController;
     }
 
     /**
@@ -41,6 +49,18 @@ class ContactController extends Controller
      * @param Request $request
      */
     public function saveContact(Request $request) {
-        dd($request);
+        $contactInfoData = $request->except('message');
+
+        $contactInfo = $this->contactInfoRepo->create($contactInfoData);
+
+        $contactInfoMessagesData = [
+//            'contact_info_id' => $contactInfo->id,
+            'message' => $request->get('message'),
+            'initiator' => ContactInfoMessageRepository::USER
+        ];
+
+        $contactInfoMessages = $contactInfo->message()->create($contactInfoMessagesData);
+
+        $this->notifications->sendContactInfoToUser($contactInfo);
     }
 }
