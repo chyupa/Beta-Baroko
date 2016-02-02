@@ -97,16 +97,19 @@ class NotificationsController extends Controller
     /**
      * Send contact info email to user
      * @param $contactInfo
+     * @return bool
      */
     public function sendContactInfoToUser($contactInfo) {
-        \Log::debug($contactInfo->message->toArray());
+
+        //send mail
         Mail::send('emails.contact-info', [
-          'name' => $contactInfo->name,
-          'message' => $contactInfo->message->message,
-          'link' => route('front.get.conversations')
+          'link' => route('front.get.conversations', $contactInfo->uuid)
         ], function ($message) use ($contactInfo) {
             $message->from($this->admin_email);
             $message->to($contactInfo->email);
         });
+
+        //just return true here
+        return true;
     }
 }

@@ -47,6 +47,7 @@ class ContactController extends Controller
      * Save contact form data
      *
      * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function saveContact(Request $request) {
         $contactInfoData = $request->except('message');
@@ -54,13 +55,14 @@ class ContactController extends Controller
         $contactInfo = $this->contactInfoRepo->create($contactInfoData);
 
         $contactInfoMessagesData = [
-//            'contact_info_id' => $contactInfo->id,
             'message' => $request->get('message'),
-            'initiator' => ContactInfoMessageRepository::USER
+            'initiator' => ContactInfoMessageRepository::CLIENT
         ];
 
-        $contactInfoMessages = $contactInfo->message()->create($contactInfoMessagesData);
+        $contactInfoMessages = $contactInfo->messages()->create($contactInfoMessagesData);
 
         $this->notifications->sendContactInfoToUser($contactInfo);
+
+        return response()->json(['success' => 'Message sent!']);
     }
 }
