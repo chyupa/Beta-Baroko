@@ -887,6 +887,7 @@
             return ContactFactory.saveContact(vm.formData)
                 .then(function(response) {
                     toastr.success(response.success);
+                    vm.formData = {};
                 });
         }
 
