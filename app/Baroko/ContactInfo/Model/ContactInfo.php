@@ -26,7 +26,7 @@ class ContactInfo extends Model
      * ContactInfoMessage relationship
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function message() {
+    public function messages() {
         return $this->hasMany('App\Baroko\ContactInfoMessage\Model\ContactInfoMessage');
     }
 }
