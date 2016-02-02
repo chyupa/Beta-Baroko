@@ -17,6 +17,7 @@ class CreateContactInfoMessagesTable extends Migration
             $table->increments('id');
             $table->integer('contact_info_id');
             $table->enum('initiator', ['admin', 'client']);
+            $table->string('message');
             $table->timestamps();
         });
     }
