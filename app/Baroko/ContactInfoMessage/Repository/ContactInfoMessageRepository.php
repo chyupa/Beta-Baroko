@@ -19,7 +19,7 @@ class ContactInfoMessageRepository extends BarokoRepository
     /**
      * constant for user initiator
      */
-    const USER = 'user';
+    const CLIENT = 'client';
 
     /**
      * @var ContactInfoMessage
