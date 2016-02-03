@@ -25,7 +25,9 @@
                 GET_SUBCATEGORY: '/api/getSubcategory',
                 GET_SUBCATEGORY_PRODUCTS: '/api/getSubcategoryProducts/',
 
-                SAVE_CONTACT: '/api/saveContact/'
+                SAVE_CONTACT: '/api/saveContact/',
+
+                GET_CONVERSATION: '/api/getConversation/'
             },
             FRONT: {
                 THANK_YOU: '/thank-you'

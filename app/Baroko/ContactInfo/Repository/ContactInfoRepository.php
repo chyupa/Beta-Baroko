@@ -34,6 +34,6 @@ class ContactInfoRepository extends BarokoRepository
         return $this->model
           ->with('messages')
           ->where('uuid', $uuid)
-          ->get();
+          ->first();
     }
 }

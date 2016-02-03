@@ -25,7 +25,9 @@
                 GET_SUBCATEGORY: '/api/getSubcategory',
                 GET_SUBCATEGORY_PRODUCTS: '/api/getSubcategoryProducts/',
 
-                SAVE_CONTACT: '/api/saveContact/'
+                SAVE_CONTACT: '/api/saveContact/',
+
+                GET_CONVERSATION: '/api/getConversation/'
             },
             FRONT: {
                 THANK_YOU: '/thank-you'
@@ -446,6 +448,62 @@
             function saveContactFailed(response) {
                 toastr.error('Ooops! Could not send your message.');
                 console.log(response);
+            }
+        }
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('baroko.front')
+        .factory('ConversationFactory', ConversationFactory);
+
+    ConversationFactory.$inject = ['$http', 'endpoints', 'toastr'];
+
+    /**
+     * Get conversation factory
+     *
+     * @param $http
+     * @param endpoints
+     * @param toastr
+     * @returns {{getConversation: getConversation}}
+     * @constructor
+     */
+    function ConversationFactory($http, endpoints, toastr) {
+        return {
+            getConversation: getConversation
+        };
+
+        /**
+         * Get conversation by uuid
+         *
+         * @param uuid
+         * @returns {HttpPromise}
+         */
+        function getConversation(uuid) {
+            return $http.get(endpoints.BACK.GET_CONVERSATION + uuid)
+                .then(getConversationComplete)
+                .catch(getConversationFailed);
+
+            /**
+             * Success callback
+             *
+             * @param response
+             * @returns {Object}
+             */
+            function getConversationComplete(response) {
+                return response.data;
+            }
+
+            /**
+             * Error callback
+             *
+             * @param response
+             */
+            function getConversationFailed(response) {
+                console.log(response);
+                toastr.error(response.error);
             }
         }
     }
@@ -895,6 +953,40 @@
             toastr.success('Contact Controller activated');
         }
     }
+})();
+(function () {
+    'use strict';
+
+    angular
+        .module('baroko.front')
+        .controller('ConversationController', ConversationController);
+
+    ConversationController.$inject = ['ConversationFactory', '$location', 'toastr'];
+
+    function ConversationController(ConversationFactory, $location, toastr) {
+        var vm = this;
+
+        activate();
+
+        function activate() {
+            toastr.success('Conversation Controller activated');
+            return ConversationFactory.getConversation(getUuidFromUrl())
+                .then(function(response) {
+                    vm.conversation = response.success;
+                    console.log(vm.conversation);
+                });
+        }
+
+        /**
+         * helper function for getting the slug
+         *
+         * @returns {string}
+         */
+        function getUuidFromUrl() {
+            return $location.absUrl().split('/').pop();
+        }
+    }
+
 })();
 (function () {
    'use strict';

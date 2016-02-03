@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Baroko\Category\Repository\CategoryRepository;
+use App\Baroko\ContactInfo\Repository\ContactInfoRepository;
 use App\Baroko\Subcategory\Repository\SubcategoryRepository;
 use App\Http\Controllers\Controller;
 
@@ -18,12 +19,17 @@ class FrontController extends Controller
     protected $categoryRepo;
 
     /**
+     * @var ContactInfoRepository
+     */
+    protected $contactInfoRepo;
+
+    /**
      * FrontController constructor.
      * @param CategoryRepository $categoryRepository
-     * @param SubcategoryRepository $subcategoryRepository
      */
-    public function __construct(CategoryRepository $categoryRepository) {
+    public function __construct(CategoryRepository $categoryRepository, ContactInfoRepository $contactInfoRepository) {
         $this->categoryRepo = $categoryRepository;
+        $this->contactInfoRepo = $contactInfoRepository;
     }
 
     /**
@@ -107,5 +113,20 @@ class FrontController extends Controller
      */
     public function getContact() {
         return view('front.contact');
+    }
+
+    /**
+     * Display conversation view
+     *
+     * @param $uuid
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getConversation($uuid) {
+        $contactinfo = $this->contactInfoRepo->getConversationByUuid($uuid);
+        if (!$contactinfo) {
+            abort(404);
+        }
+
+        return view('front.conversation');
     }
 }
