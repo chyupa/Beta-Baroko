@@ -23,4 +23,17 @@ class ContactInfoRepository extends BarokoRepository
     public function __construct(ContactInfo $contactInfo) {
         $this->model = $contactInfo;
     }
+
+    /**
+     * Get conversation by UUID
+     *
+     * @param $uuid
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function getConversationByUuid($uuid) {
+        return $this->model
+          ->with('messages')
+          ->where('uuid', $uuid)
+          ->get();
+    }
 }

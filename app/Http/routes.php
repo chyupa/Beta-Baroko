@@ -47,7 +47,7 @@ Route::group(['middleware' => ['web']], function () {
 
         Route::get('contact', ['uses' => 'FrontController@getContact', 'as' => 'front.get.contact']);
 
-        Route::get('conversation/{uuid}', ['uses' => 'ContactController@getConversations', 'as' => 'front.get.conversations']);
+        Route::get('conversation/{uuid}', ['uses' => 'ContactController@getConversation', 'as' => 'front.get.conversation']);
 
         // Keep in mind that this needs to be the last route in this group otherwise the other ones will return 404
         Route::get('{url}', ['uses' => 'ProductController@getSingleProduct', 'as' => 'front.get.singleProduct']);
