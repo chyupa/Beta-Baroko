@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Mail;
 
 /**
  * TODO: structure the code better
- *
+ * 
  * Class NotificationsController
  * @package App\Http\Controllers\Back
  */
@@ -105,7 +105,7 @@ class NotificationsController extends Controller
 
         //send mail
         Mail::send('emails.contact-info', [
-          'link' => route('front.get.conversation', $contactInfo->uuid)
+          'link' => route('front.get.conversations', $contactInfo->uuid)
         ], function ($message) use ($contactInfo) {
             $message->from($this->admin_email);
             $message->to($contactInfo->email);
