@@ -65,4 +65,19 @@ class ContactController extends Controller
 
         return response()->json(['success' => 'Message sent!']);
     }
+
+    /**
+     * Get conversation by UUID
+     *
+     * @param $uuid
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getConversation($uuid) {
+        $conversation = $this->contactInfoRepo->getConversationByUuid($uuid);
+        if (!$conversation) {
+            return response()->json(['error' => 'Could not find conversation']);
+        }
+
+        return response()->json(['success' => $conversation]);
+    }
 }

@@ -23,19 +23,4 @@ class ContactController extends Controller
     public function __construct(ContactInfoRepository $contactInfoRepository) {
         $this->contactRepo = $contactInfoRepository;
     }
-
-    /**
-     * Get conversation by UUID
-     *
-     * @param $uuid
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getConversation($uuid) {
-        $conversation = $this->contactRepo->getConversationByUuid($uuid);
-        if (!$conversation) {
-            return response()->json(['error' => 'Could not find conversation']);
-        }
-
-        return response()->json(['success' => $conversation]);
-    }
 }
