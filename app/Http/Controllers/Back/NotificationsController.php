@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 
 /**
+ * TODO: structure the code better
+ * 
  * Class NotificationsController
  * @package App\Http\Controllers\Back
  */
