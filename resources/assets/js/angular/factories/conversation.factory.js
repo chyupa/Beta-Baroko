@@ -18,7 +18,8 @@
      */
     function ConversationFactory($http, endpoints, toastr) {
         return {
-            getConversation: getConversation
+            getConversation: getConversation,
+            saveReply: saveReply
         };
 
         /**
@@ -50,6 +51,37 @@
             function getConversationFailed(response) {
                 console.log(response);
                 toastr.error(response.error);
+            }
+        }
+
+        /**
+         * Save Reply
+         *
+         * @param data
+         * @returns {HttpPromise}
+         */
+        function saveReply(data) {
+            return $http.post(endpoints.BACK.SAVE_REPLY, data)
+                .then(saveReplyCompleted)
+                .catch(saveReplyFailed);
+
+            /**
+             * Success callback
+             *
+             * @param response
+             * @returns {*}
+             */
+            function saveReplyCompleted(response) {
+                return response.data;
+            }
+
+            /**
+             * Error callback
+             * @param response
+             */
+            function saveReplyFailed(response) {
+                toastr.error('Ooops! Could not send your reply.');
+                console.log(response);
             }
         }
     }

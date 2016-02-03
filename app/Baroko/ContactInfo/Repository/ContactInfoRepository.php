@@ -25,7 +25,7 @@ class ContactInfoRepository extends BarokoRepository
     }
 
     /**
-     * Get conversation by UUID
+     * Get conversation with messages by UUID
      *
      * @param $uuid
      * @return \Illuminate\Database\Eloquent\Collection|static[]
@@ -33,6 +33,18 @@ class ContactInfoRepository extends BarokoRepository
     public function getConversationByUuid($uuid) {
         return $this->model
           ->with('messages')
+          ->where('uuid', $uuid)
+          ->first();
+    }
+
+    /**
+     * Find conversation by UUID
+     *
+     * @param $uuid
+     * @return mixed
+     */
+    public function findConversationByUuid($uuid) {
+        return $this->model
           ->where('uuid', $uuid)
           ->first();
     }

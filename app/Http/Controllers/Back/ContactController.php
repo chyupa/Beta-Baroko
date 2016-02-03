@@ -80,4 +80,26 @@ class ContactController extends Controller
 
         return response()->json(['success' => $conversation]);
     }
+
+    /**
+     * Save reply to database
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function saveReply(Request $request) {
+        $contactInfo = $this->contactInfoRepo->findConversationByUuid($request->get('uuid'));
+        if (!$contactInfo) {
+            return response()->json(['error' => 'Could not find conversation!'], 404);
+        }
+
+        $replyData = [
+            'message' => $request->get('message'),
+            'initiator' => ContactInfoMessageRepository::CLIENT
+        ];
+
+        $contactInfo->messages()->create($replyData);
+
+        return response()->json(['success' => 'Reply was sent!']);
+    }
 }

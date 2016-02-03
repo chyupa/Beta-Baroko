@@ -27,7 +27,8 @@
 
                 SAVE_CONTACT: '/api/saveContact/',
 
-                GET_CONVERSATION: '/api/getConversation/'
+                GET_CONVERSATION: '/api/getConversation/',
+                SAVE_REPLY: '/api/saveReply/'
             },
             FRONT: {
                 THANK_YOU: '/thank-you'
@@ -472,7 +473,8 @@
      */
     function ConversationFactory($http, endpoints, toastr) {
         return {
-            getConversation: getConversation
+            getConversation: getConversation,
+            saveReply: saveReply
         };
 
         /**
@@ -504,6 +506,37 @@
             function getConversationFailed(response) {
                 console.log(response);
                 toastr.error(response.error);
+            }
+        }
+
+        /**
+         * Save Reply
+         *
+         * @param data
+         * @returns {HttpPromise}
+         */
+        function saveReply(data) {
+            return $http.post(endpoints.BACK.SAVE_REPLY, data)
+                .then(saveReplyCompleted)
+                .catch(saveReplyFailed);
+
+            /**
+             * Success callback
+             *
+             * @param response
+             * @returns {*}
+             */
+            function saveReplyCompleted(response) {
+                return response.data;
+            }
+
+            /**
+             * Error callback
+             * @param response
+             */
+            function saveReplyFailed(response) {
+                toastr.error('Ooops! Could not send your reply.');
+                console.log(response);
             }
         }
     }
@@ -965,6 +998,29 @@
 
     function ConversationController(ConversationFactory, $location, toastr) {
         var vm = this;
+        vm.formData = {};
+        vm.saveReply = saveReply;
+        vm.isClientInitiator = isClientInitiator;
+
+        function saveReply() {
+            var data = {
+                message: vm.formData.message,
+                uuid: getUuidFromUrl()
+            };
+
+            return ConversationFactory.saveReply(data)
+                .then(function(response) {
+                    vm.formData = {};
+                    toastr.success(response.success);
+
+                    vm.conversation.messages.push({
+                        message: data.message,
+                        initiator: 'client',
+                        created_at: new Date()
+                    });
+
+                })
+        }
 
         activate();
 
@@ -975,6 +1031,10 @@
                     vm.conversation = response.success;
                     console.log(vm.conversation);
                 });
+        }
+
+        function isClientInitiator(messageIndex) {
+            return vm.conversation.messages[messageIndex].initiator === 'client';
         }
 
         /**

@@ -83,4 +83,5 @@ Route::group([
     Route::post('saveContact', ['uses' => 'ContactController@saveContact', 'as' => 'back.post.saveContact']);
 
     Route::get('getConversation/{uuid}', ['uses' => 'ContactController@getConversation', 'as' => 'back.get.conversation']);
+    Route::post('saveReply', ['uses' => 'ContactController@saveReply', 'as' => 'back.post.saveReply']);
 });

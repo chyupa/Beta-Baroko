@@ -27,7 +27,8 @@
 
                 SAVE_CONTACT: '/api/saveContact/',
 
-                GET_CONVERSATION: '/api/getConversation/'
+                GET_CONVERSATION: '/api/getConversation/',
+                SAVE_REPLY: '/api/saveReply/'
             },
             FRONT: {
                 THANK_YOU: '/thank-you'
