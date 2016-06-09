@@ -4,8 +4,8 @@ var elixir = require('laravel-elixir'),
 
 elixir(function(mix) {
     mix.styles([
-            'bootstrap/dist/css/bootstrap.min.css',
-            'bootstrap/dist/css/bootstrap-theme.min.css',
+            // 'bootstrap/dist/css/bootstrap.min.css',
+            // 'bootstrap/dist/css/bootstrap-theme.min.css',
             'angular-ui/build/angular-ui.min.css',
             'angular-toastr/dist/angular-toastr.min.css'
         ],
@@ -27,8 +27,6 @@ elixir(function(mix) {
         assetsDir + 'js/libs.js',
         bowerDir
     );
-
-    //mix.scriptsIn('resources/assets/js/angular', assetsDir + 'js/baroko.js');
 
     mix.scripts([
         'angular/baroko.module.js',

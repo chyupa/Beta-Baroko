@@ -35,6 +35,7 @@ class ProductRepository extends BarokoRepository
           ->with('prices')
           ->with('settings')
           ->where('public', true)
+          ->limit(15)
           ->get();
     }
 

@@ -24,7 +24,7 @@ class ComposerServiceProvider extends ServiceProvider
           'App\Http\ViewComposers\CartComposer'
         );
         view()->composer(
-          'front.partials.left-menu', 'App\Http\ViewComposers\CategoryComposer'
+          'front.partials.header-menu', 'App\Http\ViewComposers\CategoryComposer'
         );
     }
 

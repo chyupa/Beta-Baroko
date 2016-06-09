@@ -31,7 +31,6 @@ $factory->define(App\Baroko\Product\Model\Product::class, function (Faker\Genera
 
 $factory->define(App\Baroko\ProductInfo\Model\ProductInfo::class, function (Faker\Generator $faker) {
     return [
-      'product_id' => $faker->unique()->numberBetween(1, 100),
       'description' => $faker->text(200),
       'code' => $faker->randomNumber(6),
       'extension' => $faker->randomElement(['metru', 'bucata'])
@@ -40,14 +39,12 @@ $factory->define(App\Baroko\ProductInfo\Model\ProductInfo::class, function (Fake
 
 $factory->define(App\Baroko\ProductOutlet\Model\ProductOutlet::class, function (Faker\Generator $faker) {
     return [
-      'product_id' => $faker->unique()->numberBetween(1, 100),
       'outlet_stock' => $faker->numberBetween(0, 50)
     ];
 });
 
 $factory->define(App\Baroko\ProductPrices\Model\ProductPrices::class, function (Faker\Generator $faker) {
     return [
-      'product_id' => $faker->unique()->numberBetween(1, 100),
       'old_price' => $faker->randomFloat(2, 0, 1000),
       'price' => $faker->randomFloat(2, 0, 800),
       'discount' => $faker->numberBetween(0, 30)
@@ -56,7 +53,6 @@ $factory->define(App\Baroko\ProductPrices\Model\ProductPrices::class, function (
 
 $factory->define(App\Baroko\ProductSettings\Model\ProductSettings::class, function (Faker\Generator $faker) {
     return [
-      'product_id' => $faker->unique()->numberBetween(1, 100),
       'featured' => $faker->boolean(70),
       'promotion' => $faker->boolean(20),
       'stock' => $faker->boolean(20),

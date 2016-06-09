@@ -11,13 +11,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-//        $this->call(ProductSeeder::class);
-//        $this->call(ProductInfoSeeder::class);
-//        $this->call(ProductOutletSeeder::class);
-//        $this->call(ProductPricesSeeder::class);
-//        $this->call(ProductSettingsSeeder::class);
-
-//        $this->call(CategorySeeder::class);
-//        $this->call(SubcategorySeeder::class);
+        factory(App\User::class, 10)->create();
+        factory(App\Baroko\Category\Model\Category::class, 50)->create()->each(function($category) {
+            $category->products()->saveMany(factory(App\Baroko\Product\Model\Product::class, 100)->create()->each(function($product) use ($category) {
+                $product->info()->save(factory(App\Baroko\ProductInfo\Model\ProductInfo::class)->make());
+                $product->settings()->save(factory(App\Baroko\ProductSettings\Model\ProductSettings::class)->make());
+                $product->outlet()->save(factory(App\Baroko\ProductOutlet\Model\ProductOutlet::class)->make());
+                $product->prices()->save(factory(App\Baroko\ProductPrices\Model\ProductPrices::class)->make());
+            }));
+        });
     }
 }
